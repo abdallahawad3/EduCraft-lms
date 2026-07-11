@@ -1,7 +1,7 @@
 "use client";
 
 import { RefreshCwIcon } from "lucide-react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
