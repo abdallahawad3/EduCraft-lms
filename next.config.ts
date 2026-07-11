@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  serverExternalPackages: ["@arcjet/analyze-wasm", "@arcjet/analyze", "arcjet"],
 };
 
 export default nextConfig;
