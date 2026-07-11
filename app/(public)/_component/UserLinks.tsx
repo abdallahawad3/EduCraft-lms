@@ -14,32 +14,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { useSignOut } from "@/hooks/use-signout";
 
 export function DropdownMenuAvatar() {
   const { data } = authClient.useSession();
-  const router = useRouter();
-  const handleSignOut = async () => {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          toast.success("Signed out successfully!", {
-            position: "top-right",
-          });
-          setTimeout(() => {
-            router.push("/login");
-          }, 1000);
-        },
-        onError: (error) => {
-          console.error("Sign out failed:", error);
-          toast.error("Sign out failed!", {
-            position: "top-right",
-          });
-        },
-      },
-    });
-  };
+
+  const { signOut } = useSignOut();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -84,7 +64,7 @@ export function DropdownMenuAvatar() {
               Courses
             </DropdownMenuItem>
           </Link>
-          <Link href="/dashboard">
+          <Link href="/admin">
             <DropdownMenuItem>
               <LayoutDashboardIcon />
               Dashboard
@@ -92,7 +72,7 @@ export function DropdownMenuAvatar() {
           </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleSignOut}>
+        <DropdownMenuItem onClick={signOut}>
           <LogOutIcon />
           Sign Out
         </DropdownMenuItem>

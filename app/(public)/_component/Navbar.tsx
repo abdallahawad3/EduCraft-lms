@@ -1,9 +1,10 @@
 "use client";
-import { ModeToggle } from "@/components/mode-toggle";
+import { ModeToggle } from "@/components/theme/mode-toggle";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
 import { DropdownMenuAvatar } from "./UserLinks";
+import { buttonVariants } from "@/components/ui/button";
 
 const NAVIGATION_LINKS = [
   { name: "Courses", href: "/courses" },
@@ -44,12 +45,14 @@ const Navbar = () => {
             ) : data?.user ? (
               <DropdownMenuAvatar />
             ) : (
-              <Link
-                href="/login"
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Login
-              </Link>
+              <div className="flex items-center space-x-2">
+                <Link href="/login" className={buttonVariants({ size: "lg", variant: "outline" })}>
+                  Login
+                </Link>
+                <Link href="/login" className={buttonVariants({ size: "lg" })}>
+                  Get Started
+                </Link>
+              </div>
             )}
           </div>
         </nav>

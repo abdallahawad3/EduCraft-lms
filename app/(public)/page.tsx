@@ -2,9 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 const FEATURES = [
   {
@@ -51,13 +49,7 @@ const FEATURES = [
   },
 ];
 
-const page = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  if (!session) {
-    redirect("/login");
-  }
+const page = () => {
   return (
     <>
       <section className="relative flex justify-center items-center mb-5 py-30">
@@ -66,7 +58,7 @@ const page = async () => {
           <h1 className="text-4xl md:text-6xl font-medium tracking-tight text-center">
             Elevate Your Learning Experience
           </h1>
-          <p className="max-w-[700px] text-lg text-center text-muted-foreground">
+          <p className="max-w-175 text-lg text-center text-muted-foreground">
             Discover a world of knowledge at your fingertips. Our platform offers a wide range of
             courses designed to help you achieve your learning goals. Join our community of learners
             and start your journey today!
