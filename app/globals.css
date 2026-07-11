@@ -3,6 +3,7 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
+@plugin "@tailwindcss/typography";
 
 :root {
   --background: oklch(0.9911 0 0);
@@ -184,4 +185,8 @@
 
 [data-input-otp-container="true"] {
   @apply flex! justify-center!;
+}
+
+.tiptap  ul li p , .tiptap  ol li p {
+  @apply my-0;
 }

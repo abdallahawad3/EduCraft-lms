@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type z from "zod";
+import RichTextEditor from "@/components/rich-text-editor/Editor";
 const CreateCoursePage = () => {
   const form = useForm<z.infer<typeof CREATE_COURSE_SCHEME>>({
     resolver: zodResolver(CREATE_COURSE_SCHEME),
@@ -149,15 +150,7 @@ const CreateCoursePage = () => {
                 render={({ field, fieldState }) => (
                   <Field className="flex-1" data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="description">Description</FieldLabel>
-                    <Textarea
-                      rows={10}
-                      {...field}
-                      className="min-h-25 max-h-50"
-                      id="description"
-                      placeholder="Enter description"
-                      aria-invalid={fieldState.invalid}
-                    />
-
+                    <RichTextEditor />
                     {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                   </Field>
                 )}
