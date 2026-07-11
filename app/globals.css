@@ -196,3 +196,6 @@
     @apply font-sans;
   }
 }
+[data-input-otp-container="true"] {
+  @apply flex! justify-center!;
+}

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
@@ -13,8 +14,23 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { Loader2Icon, XIcon } from "lucide-react";
 import { useTransition } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
+import * as z from "zod";
+import { useRouter } from "next/navigation";
+
+const loginSchema = z.object({
+  email: z.string().email(),
+});
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
+
   const [isPending, startTransition] = useTransition();
   const loginWithGithub = () => {
     startTransition(async () => {
@@ -41,17 +57,55 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       });
     });
   };
+  const router = useRouter();
+  function onSubmit(data: z.infer<typeof loginSchema>) {
+    const email = data.email;
+    startTransition(async () => {
+      const { error } = await authClient.emailOtp.sendVerificationOtp({
+        email: email,
+        type: "sign-in",
+      });
+
+      if (error) {
+        console.error("Error sending OTP:", error);
+        toast.error("Failed to send OTP. Please try again.", {
+          position: "top-right",
+        });
+      } else {
+        router.push(`/verify-otp?email=${email}`);
+        toast.success("OTP sent successfully! Please check your email.", {
+          position: "top-right",
+        });
+      }
+    });
+  }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <form>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FieldGroup>
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="form-rhf-demo-email">Email</FieldLabel>
+                <Input
+                  {...field}
+                  id="form-rhf-demo-email"
+                  aria-invalid={fieldState.invalid}
+                  placeholder="m@example.com"
+                  autoComplete="off"
+                />
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
+
           <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
-            <Input id="email" type="email" placeholder="m@example.com" required />
-          </Field>
-          <Field>
-            <Button type="submit">Login</Button>
+            <Button type="submit">
+              {isPending ? <Loader2Icon className="size-4 animate-spin" /> : "Continue with Email"}
+            </Button>
           </Field>
           <FieldSeparator>Or</FieldSeparator>
           <Field className="grid gap-4 sm:grid-cols-2">
