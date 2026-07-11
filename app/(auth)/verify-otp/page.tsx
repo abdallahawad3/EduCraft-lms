@@ -94,7 +94,7 @@ export default function VerifyOTPPage() {
       </CardContent>
       <CardFooter>
         <Field>
-          <Button onClick={submitOtp} type="submit" className="w-full">
+          <Button disabled={otp.length !== 6} onClick={submitOtp} type="submit" className="w-full">
             Verify
           </Button>
         </Field>
