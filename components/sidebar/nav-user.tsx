@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,23 +9,23 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar";
-import { useSignOut } from "@/hooks/use-signout";
-import { authClient } from "@/lib/auth-client";
+} from '@/components/ui/sidebar';
+import { useSignOut } from '@/hooks/use-signout';
+import { authClient } from '@/lib/auth-client';
 import {
   EllipsisVerticalIcon,
-  LogOutIcon,
-  LayoutDashboardIcon,
   HomeIcon,
+  LayoutDashboardIcon,
   LibraryBigIcon,
-} from "lucide-react";
-import Link from "next/link";
+  LogOutIcon,
+} from 'lucide-react';
+import Link from 'next/link';
 
 export function NavUser() {
   const { signOut } = useSignOut();
@@ -40,24 +40,36 @@ export function NavUser() {
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger
-            render={<SidebarMenuButton size="lg" className="aria-expanded:bg-muted" />}
+            render={
+              <SidebarMenuButton size="lg" className="aria-expanded:bg-muted" />
+            }
           >
             <Avatar className="size-8 rounded-md">
-              <AvatarImage
-                src={data?.user?.image || "https://github.com/shadcn.png"}
-                alt={data?.user?.name}
-              />
-              <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+              {data?.user?.image ? (
+                <AvatarImage
+                  src={data?.user?.image || 'https://github.com/shadcn.png'}
+                  alt={data?.user?.name}
+                />
+              ) : (
+                <AvatarFallback className="rounded-lg">
+                  {data?.user?.email
+                    ? data.user.email.split('@')[0].at(0)!.toUpperCase()
+                    : 'U'}
+                </AvatarFallback>
+              )}
+              {/* <AvatarFallback className="rounded-lg">CN</AvatarFallback> */}
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-medium">{data?.user?.name}</span>
-              <span className="truncate text-xs text-foreground/70">{data?.user?.email}</span>
+              <span className="truncate text-xs text-foreground/70">
+                {data?.user?.email}
+              </span>
             </div>
             <EllipsisVerticalIcon className="ml-auto size-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="min-w-56"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
           >
@@ -67,19 +79,21 @@ export function NavUser() {
                   <Avatar className="size-8">
                     <AvatarImage
                       className="rounded-lg"
-                      src={data?.user?.image || "https://github.com/shadcn.png"}
+                      src={data?.user?.image || 'https://github.com/shadcn.png'}
                       alt={data?.user?.name}
                     />
                     <AvatarFallback className="rounded-lg">
                       {data?.user?.name
-                        ?.split(" ")
+                        ?.split(' ')
                         .map((n) => n[0])
-                        .join("")}
+                        .join('')}
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-medium">
-                      {data?.user?.name ? data?.user?.name : data?.user?.email.split("@")[0]}
+                      {data?.user?.name
+                        ? data?.user?.name
+                        : data?.user?.email.split('@')[0]}
                     </span>
                     <span className="truncate text-xs text-muted-foreground">
                       {data?.user?.email}
@@ -90,15 +104,15 @@ export function NavUser() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem render={<Link href={"/admin"} />}>
+              <DropdownMenuItem render={<Link href={'/admin'} />}>
                 <LayoutDashboardIcon />
                 Dashboard
               </DropdownMenuItem>
-              <DropdownMenuItem render={<Link href={"/"} />}>
+              <DropdownMenuItem render={<Link href={'/'} />}>
                 <HomeIcon />
                 Home
               </DropdownMenuItem>
-              <DropdownMenuItem render={<Link href={"/admin/courses"} />}>
+              <DropdownMenuItem render={<Link href={'/admin/courses'} />}>
                 <LibraryBigIcon />
                 Courses
               </DropdownMenuItem>
