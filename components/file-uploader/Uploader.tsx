@@ -1,6 +1,6 @@
 'use client';
 
-interface IUploaderState {
+export interface IUploaderState {
   id: string | null;
   file: File | null;
   uploading: boolean;
@@ -19,7 +19,7 @@ import { useState } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 import { Card, CardContent } from '../ui/card';
-import { RenderEmptyState } from './RenderState';
+import { RenderUploadingContent } from './RenderState';
 
 const Uploader = () => {
   // This state to track all you need to track file
@@ -33,16 +33,93 @@ const Uploader = () => {
     uploading: false,
   });
 
-  function UplaodFile(file: File) {
+  async function UploadFile(file: File) {
     setFileState((prev) => ({ ...prev, uploading: true, progress: 0 }));
 
-    //TODO Needed to upload image or file into S3 provider
+    try {
+      // 1- Get presigned url
+      const presignedUrlResponse = await fetch('/api/s3/upload', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fileName: file.name,
+          contentType: file.type,
+          size: file.size,
+          isImage: file.type.startsWith('image') ? true : false,
+        }),
+      });
+
+      if (!presignedUrlResponse) {
+        toast.error('Failed to get presigned Url');
+        setFileState((prev) => ({
+          ...prev,
+          error: true,
+        }));
+
+        return;
+      }
+
+      const { key, presignedUrl } = await presignedUrlResponse.json();
+
+      // 2- Track the uploading files
+      await new Promise<void>((resolve, reject) => {
+        //1- Create a new XMLHttpRequest to upload the file to S3 using the presigned URL
+        const xhr = new XMLHttpRequest();
+        //2- Track the progress of the upload and update the state accordingly
+        xhr.upload.onprogress = (event) => {
+          if (event.lengthComputable) {
+            const percentageCompleted = (event.loaded / event.total) * 100;
+            setFileState((prev) => ({
+              ...prev,
+              progress: Math.round(percentageCompleted),
+            }));
+          }
+        };
+        // 3- Handle the response from the S3 upload and update the state accordingly
+        xhr.onload = () => {
+          if (xhr.status === 200 || xhr.status === 204) {
+            setFileState((prev) => ({
+              ...prev,
+              progress: 100,
+              uploading: false,
+              key,
+            }));
+
+            toast.success('File uploaded successfully');
+            resolve();
+          } else {
+            console.log('Tigris response:', xhr.responseText);
+            reject(new Error(xhr.responseText));
+          }
+        };
+        // 4- Handle any errors that occur during the upload and update the state accordingly
+        xhr.onerror = () => {
+          reject(new Error('Uploaded Failed'));
+        };
+        // 5- Send the file to S3 using the presigned URL
+        xhr.open('PUT', presignedUrl);
+        xhr.setRequestHeader('Content-Type', file.type);
+        xhr.send(file);
+      });
+    } catch (error) {
+      toast.error('Failed to upload file');
+      setFileState((prev) => ({
+        ...prev,
+        error: true,
+        uploading: false,
+      }));
+    }
   }
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
         const file = acceptedFiles[0];
-
+        if (fileState.objectUrl && !fileState.objectUrl.startsWith('http')) {
+          URL.revokeObjectURL(fileState.objectUrl);
+        }
         setFileState({
           file,
           uploading: false,
@@ -53,6 +130,7 @@ const Uploader = () => {
           fileType: 'image',
           isDeleting: false,
         });
+        UploadFile(file);
       }
     },
     accept: {
@@ -111,7 +189,10 @@ const Uploader = () => {
     >
       <CardContent className="flex items-center justify-center w-full h-full">
         <input {...getInputProps()} />
-        <RenderEmptyState isDragActive={isDragActive} />
+        <RenderUploadingContent
+          fileState={fileState}
+          isDragActive={isDragActive}
+        />
       </CardContent>
     </Card>
   );
