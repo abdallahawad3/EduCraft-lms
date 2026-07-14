@@ -4,7 +4,13 @@ import TextAlign from '@tiptap/extension-text-align';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import MenuBar from './MenuBar';
-const RichTextEditor = () => {
+
+interface RichTextEditorProps {
+  content?: string;
+  onChange?: (value: string) => void;
+}
+
+const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -25,6 +31,14 @@ const RichTextEditor = () => {
   if (!editor) {
     return null;
   }
+  if (content !== undefined) {
+    editor.commands.setContent(content);
+  }
+
+  editor.on('update', () => {
+    const html = editor.getHTML();
+    onChange?.(html);
+  });
 
   return (
     <div className="w-full rounded-md border bg-background text-foreground shadow-sm">

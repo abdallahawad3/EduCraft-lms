@@ -21,7 +21,12 @@ import { toast } from 'sonner';
 import { Card, CardContent } from '../ui/card';
 import { RenderUploadingContent } from './RenderState';
 
-const Uploader = () => {
+interface IUploaderProps {
+  onChange?: (value: string) => void;
+  value?: string;
+}
+
+const Uploader = ({ onChange, value }: IUploaderProps) => {
   // This state to track all you need to track file
   const [fileState, setFileState] = useState<IUploaderState>({
     error: false,
@@ -31,6 +36,7 @@ const Uploader = () => {
     isDeleting: false,
     progress: 0,
     uploading: false,
+    key: value,
   });
 
   async function UploadFile(file: File) {
@@ -86,7 +92,7 @@ const Uploader = () => {
               uploading: false,
               key,
             }));
-
+            onChange?.(key);
             toast.success('File uploaded successfully');
             resolve();
           } else {
@@ -110,6 +116,47 @@ const Uploader = () => {
         error: true,
         uploading: false,
       }));
+    }
+  }
+
+  async function handleDeleteFile() {
+    if (!fileState.objectUrl || fileState.isDeleting) return;
+    try {
+      setFileState((prev) => ({ ...prev, isDeleting: true }));
+      const response = await fetch('/api/s3/delete', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          key: fileState.key,
+        }),
+      });
+
+      if (!response.ok) {
+        toast.error('Failed to delete file');
+        setFileState((prev) => ({ ...prev, isDeleting: false }));
+        throw new Error('Failed to delete file');
+      }
+
+      if (fileState.objectUrl && !fileState.objectUrl.startsWith('http')) {
+        URL.revokeObjectURL(fileState.objectUrl);
+      }
+
+      setFileState({
+        error: false,
+        file: null,
+        id: null,
+        fileType: 'image',
+        isDeleting: false,
+        progress: 0,
+        uploading: false,
+      });
+      onChange?.('');
+      toast.success('File deleted successfully');
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to delete file');
     }
   }
 
@@ -139,6 +186,7 @@ const Uploader = () => {
     maxFiles: 1,
     multiple: false,
     maxSize: 5 * 1024 * 1024,
+    disabled: fileState.uploading || fileState.isDeleting,
     onDropRejected: handleFileRejection,
   });
 
@@ -190,6 +238,7 @@ const Uploader = () => {
       <CardContent className="flex items-center justify-center w-full h-full">
         <input {...getInputProps()} />
         <RenderUploadingContent
+          handleDeleteFile={handleDeleteFile}
           fileState={fileState}
           isDragActive={isDragActive}
         />

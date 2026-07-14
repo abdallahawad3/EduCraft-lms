@@ -3,7 +3,11 @@ import { CloudUploadIcon, ImageIcon, XIcon } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { IUploaderState } from './Uploader';
-
+interface IRenderStateProps {
+  fileState: IUploaderState;
+  isDragActive: boolean;
+  handleDeleteFile: () => void;
+}
 export function RenderEmptyState({ isDragActive }: { isDragActive: boolean }) {
   return (
     <div className="text-center">
@@ -44,10 +48,8 @@ export function RenderErrorState() {
 export function RenderUploadingContent({
   fileState,
   isDragActive,
-}: {
-  fileState: IUploaderState;
-  isDragActive: boolean;
-}) {
+  handleDeleteFile,
+}: IRenderStateProps) {
   if (fileState.uploading && fileState.file) {
     return (
       <RenderUploadingState
@@ -62,26 +64,38 @@ export function RenderUploadingContent({
   }
 
   if (fileState.objectUrl) {
-    return <RenderUploadedContent previewUrl={fileState.objectUrl} />;
+    return (
+      <RenderUploadedContent
+        previewUrl={fileState.objectUrl}
+        handleDeleteFile={handleDeleteFile}
+      />
+    );
   }
 
   return <RenderEmptyState isDragActive={isDragActive} />;
 }
 
-function RenderUploadedContent({ previewUrl }: { previewUrl: string }) {
+function RenderUploadedContent({
+  previewUrl,
+  handleDeleteFile,
+}: {
+  previewUrl: string;
+  handleDeleteFile: () => void;
+}) {
   return (
-    <div>
+    <div className="relative w-full h-full flex items-center justify-center">
       <Image
         src={previewUrl}
         alt="Preview"
         fill
-        className="object-contain p-2"
+        className="object-contain p-2 relative"
       />
 
       <Button
-        className={cn('absolute top-4 right-4')}
+        className={cn('absolute top-4 right-4 z-10')}
         size="icon"
         variant={'destructive'}
+        onClick={handleDeleteFile}
       >
         <XIcon />
       </Button>

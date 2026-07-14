@@ -182,7 +182,7 @@ const CreateCoursePage = () => {
                 render={({ field, fieldState }) => (
                   <Field className="flex-1" data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="description">Description</FieldLabel>
-                    <RichTextEditor />
+                    <RichTextEditor onChange={field.onChange} />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
                     )}
@@ -196,7 +196,7 @@ const CreateCoursePage = () => {
                 render={({ field, fieldState }) => (
                   <Field className="flex-1" data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor="file-key">Thumbnail Image</FieldLabel>
-                    <Uploader />
+                    <Uploader onChange={field.onChange} value={field.value} />
 
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
