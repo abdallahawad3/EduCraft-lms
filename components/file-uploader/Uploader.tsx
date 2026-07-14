@@ -111,6 +111,8 @@ const Uploader = ({ onChange, value }: IUploaderProps) => {
       });
     } catch (error) {
       toast.error('Failed to upload file');
+      console.log(error);
+
       setFileState((prev) => ({
         ...prev,
         error: true,
