@@ -1,9 +1,9 @@
 "use client";
 
-import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import MenuBar from "./MenuBar";
 import TextAlign from "@tiptap/extension-text-align";
+import { EditorContent, useEditor } from "@tiptap/react";
 const RichTextEditor = () => {
   const editor = useEditor({
     extensions: [
