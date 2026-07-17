@@ -1,23 +1,10 @@
+import { getAllCourses } from '@/actions/admin/get-admin-data';
 import { Button } from '@/components/ui/button';
-import { S3 } from '@/lib/S3Clinet';
-import { GetObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import Link from 'next/link';
-import { getAllCourses } from './create/action';
+import AdminCourseCard from './_components/AdminCourseCard';
 
 const page = async () => {
   const courses = await getAllCourses();
-  console.log(courses);
-  const url = await getSignedUrl(
-    S3,
-    new GetObjectCommand({
-      Bucket: 'abdullah-lms',
-      Key: courses?.data[0]?.fileKey,
-    }),
-    { expiresIn: 3600 },
-  );
-
-  console.log(url);
 
   return (
     <>
@@ -35,6 +22,11 @@ const page = async () => {
         <p className="text-muted-foreground">
           Here you will find all your courses.
         </p>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
+        {courses.map((course) => (
+          <AdminCourseCard course={course} key={course.id} />
+        ))}
       </div>
     </>
   );

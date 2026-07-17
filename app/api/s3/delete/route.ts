@@ -1,8 +1,7 @@
+import { requiredAdmin } from '@/app/data/admin/required-admin';
 import arcjet, { detectBot, fixedWindow } from '@/lib/arcjet';
-import { auth } from '@/lib/auth';
 import { S3 } from '@/lib/S3Clinet';
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
-import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 const aj = arcjet
@@ -21,9 +20,8 @@ const aj = arcjet
   );
 
 export async function DELETE(request: Request) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await requiredAdmin();
+
   try {
     const decision = await aj.protect(request, {
       fingerprint: session?.user.id as string,

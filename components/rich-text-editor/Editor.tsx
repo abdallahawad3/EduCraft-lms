@@ -3,6 +3,7 @@
 import TextAlign from '@tiptap/extension-text-align';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { useEffect } from 'react';
 import MenuBar from './MenuBar';
 
 interface RichTextEditorProps {
@@ -10,7 +11,10 @@ interface RichTextEditorProps {
   onChange?: (value: string) => void;
 }
 
-const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
+export default function RichTextEditor({
+  content,
+  onChange,
+}: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -19,6 +23,7 @@ const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
         alignments: ['left', 'right', 'center'],
       }),
     ],
+    content,
     immediatelyRender: false,
     editorProps: {
       attributes: {
@@ -28,24 +33,35 @@ const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
     },
   });
 
-  if (!editor) {
-    return null;
-  }
-  if (content !== undefined) {
-    editor.commands.setContent(content);
-  }
+  useEffect(() => {
+    if (!editor || content === undefined) return;
 
-  editor.on('update', () => {
-    const html = editor.getHTML();
-    onChange?.(html);
-  });
+    if (editor.getHTML() !== content) {
+      editor.commands.setContent(content);
+    }
+  }, [editor, content]);
+
+  // Listen for editor updates
+  useEffect(() => {
+    if (!editor) return;
+
+    const updateHandler = () => {
+      onChange?.(editor.getHTML());
+    };
+
+    editor.on('update', updateHandler);
+
+    return () => {
+      editor.off('update', updateHandler);
+    };
+  }, [editor, onChange]);
+
+  if (!editor) return null;
 
   return (
     <div className="w-full rounded-md border bg-background text-foreground shadow-sm">
       <MenuBar editor={editor} />
-      <EditorContent editor={editor} className="p-2 w-full" />
+      <EditorContent editor={editor} className="w-full p-2" />
     </div>
   );
-};
-
-export default RichTextEditor;
+}

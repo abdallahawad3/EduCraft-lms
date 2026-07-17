@@ -24,10 +24,10 @@ import { RenderUploadingContent } from './RenderState';
 interface IUploaderProps {
   onChange?: (value: string) => void;
   value?: string;
+  imageUrl?: string;
 }
 
-const Uploader = ({ onChange, value }: IUploaderProps) => {
-  // This state to track all you need to track file
+const Uploader = ({ onChange, value, imageUrl }: IUploaderProps) => {
   const [fileState, setFileState] = useState<IUploaderState>({
     error: false,
     file: null,
@@ -37,6 +37,7 @@ const Uploader = ({ onChange, value }: IUploaderProps) => {
     progress: 0,
     uploading: false,
     key: value,
+    objectUrl: imageUrl || undefined,
   });
 
   async function UploadFile(file: File) {
