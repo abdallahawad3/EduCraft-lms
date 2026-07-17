@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { tryCatch } from '@/hooks/try-catch';
 import {
   courseCategory,
   courseLevel,
@@ -34,11 +35,17 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft, PlusIcon, Stars } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useTransition } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import slugify from 'slugify';
+import { toast } from 'sonner';
 import type z from 'zod';
+import { createCourse } from './action';
+
 const CreateCoursePage = () => {
+  const [isPending, setUseTransition] = useTransition();
+  const router = useRouter();
   const form = useForm<z.infer<typeof CREATE_COURSE_SCHEME>>({
     resolver: zodResolver(CREATE_COURSE_SCHEME),
     defaultValues: {
@@ -55,8 +62,26 @@ const CreateCoursePage = () => {
     },
   });
 
-  function onSubmit(data: z.infer<typeof CREATE_COURSE_SCHEME>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof CREATE_COURSE_SCHEME>) {
+    setUseTransition(async () => {
+      const { data: result, error } = await tryCatch(createCourse(data));
+      if (error) {
+        toast.error('Failed to create course. Please try again.');
+        return;
+      }
+
+      if (result?.status === 'success') {
+        toast.success('Course created successfully!');
+        form.reset();
+        setTimeout(() => {
+          router.push('/admin/courses');
+        }, 1000);
+      } else if (result?.status === 'error') {
+        toast.error(
+          result.message || 'Failed to create course. Please try again.',
+        );
+      }
+    });
   }
 
   const title = useWatch({
@@ -339,9 +364,40 @@ const CreateCoursePage = () => {
               </div>
             </FieldGroup>
 
-            <Button type="submit" className="flex items-center gap-2 w-full">
-              <PlusIcon size={16} />
-              <span>Create Course</span>
+            <Button
+              disabled={isPending}
+              type="submit"
+              className="flex items-center gap-2 w-full"
+            >
+              {isPending ? (
+                <>
+                  <svg
+                    className="animate-spin"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.046 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                </>
+              ) : (
+                <>
+                  <PlusIcon size={16} />
+                  <span>Create Course</span>
+                </>
+              )}
             </Button>
           </form>
         </CardContent>
