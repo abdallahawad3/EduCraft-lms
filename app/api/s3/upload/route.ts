@@ -1,6 +1,9 @@
+import arcjet, { detectBot, fixedWindow } from '@/lib/arcjet';
+import { auth } from '@/lib/auth';
 import { S3 } from '@/lib/S3Clinet';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 import z from 'zod';
@@ -13,9 +16,37 @@ export const fileUploaderScheme = z.object({
 });
 
 // This route handler i use to create an "presigned" url to protect upload file in the client side //
-
+const aj = arcjet
+  .withRule(
+    detectBot({
+      mode: 'LIVE',
+      allow: [],
+    }),
+  )
+  .withRule(
+    fixedWindow({
+      mode: 'LIVE',
+      window: '1m',
+      max: 5,
+    }),
+  );
 export async function POST(request: Request) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   try {
+    const decision = await aj.protect(request, {
+      fingerprint: session?.user.id as string,
+    });
+
+    if (decision.isDenied()) {
+      return NextResponse.json(
+        {
+          error: 'Duuuud not good',
+        },
+        { status: 429 },
+      );
+    }
     const body = await request.json();
     const validation = fileUploaderScheme.safeParse(body);
     if (!validation.success) {
