@@ -32,6 +32,7 @@ import {
   CourseStatus,
   CREATE_COURSE_SCHEME,
 } from '@/lib/validation/create-course';
+import { ConfettiEffect } from '@/utils/confetti';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft, PlusIcon, Stars } from 'lucide-react';
 import Link from 'next/link';
@@ -72,6 +73,7 @@ const CreateCoursePage = () => {
 
       if (result?.status === 'success') {
         toast.success('Course created successfully!');
+        ConfettiEffect();
         form.reset();
         setTimeout(() => {
           router.push('/admin/courses');

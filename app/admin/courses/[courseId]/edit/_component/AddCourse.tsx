@@ -19,6 +19,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import z from 'zod';
 import { addChapter } from '../action';
+import { ConfettiEffect } from '@/utils/confetti';
 
 const AddChapter = () => {
   const courseId = usePathname().split('/')[3];
@@ -50,7 +51,7 @@ const AddChapter = () => {
             error: 'Error',
           },
         );
-
+        ConfettiEffect();
         closeDialog();
       }
     });
