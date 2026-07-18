@@ -36,7 +36,10 @@ const AdminCourseCard = async ({ course }: IProps) => {
           <DropdownMenuTrigger
             suppressHydrationWarning
             render={
-              <Button className={'bg-white/90 hover:bg-white/80'} size={'icon'}>
+              <Button
+                className={'bg-white/90 py-4! hover:bg-white/80'}
+                size={'icon'}
+              >
                 <MoreVertical size={4} className="text-black" />
               </Button>
             }
