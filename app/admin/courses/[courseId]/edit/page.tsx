@@ -1,3 +1,5 @@
+'use clinet';
+
 import { adminGetCourse } from '@/actions/admin/get-course-data';
 import {
   Card,
@@ -8,7 +10,9 @@ import {
 } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getImageUrl } from '@/utils/get-url';
+import MainStructure from './_component/CourseBuilder';
 import EditCourseForm from './_component/EditCourseForm';
+import { getAllChapters } from './action';
 
 interface IProps {
   params: Promise<{ courseId: string }>;
@@ -19,7 +23,7 @@ const page = async ({ params }: IProps) => {
 
   const course = await adminGetCourse(courseId);
   const imageUrl = await getImageUrl(course.fileKey);
-
+  const chapters = await getAllChapters(courseId);
   return (
     <div>
       <h1 className="text-3xl font-bold mb-8">
@@ -46,7 +50,12 @@ const page = async ({ params }: IProps) => {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value={'course-structure'}>FFFF</TabsContent>
+        <TabsContent value={'course-structure'}>
+          <MainStructure
+            courseId={courseId}
+            initialData={chapters?.data ?? []}
+          />
+        </TabsContent>
       </Tabs>
     </div>
   );
