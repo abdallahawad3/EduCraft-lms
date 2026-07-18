@@ -1,15 +1,18 @@
 import { useSortable } from '@dnd-kit/react/sortable';
-import { GripVertical, ImageOff, PlayCircle, VideoOff } from 'lucide-react';
+import { GripVertical, PlayCircle, VideoOff } from 'lucide-react';
 
+import DeleteLesson from '@/app/admin/courses/[courseId]/edit/_component/DeleteLeeson';
 import { Lesson } from '@/lib/types';
+import Link from 'next/link';
+import { useState } from 'react';
 import { ITEM_TYPE } from '../../hooks/use-course-builder';
 import { cn } from '../../lib/utils';
-import Link from 'next/link';
 
 export interface LessonRowProps {
   lesson: Lesson;
   index: number;
   chapterId: string;
+  courseId: string;
 }
 
 /**
@@ -18,7 +21,7 @@ export interface LessonRowProps {
  * and across chapters (re-parenting, i.e. updating `Lesson.chapterId`),
  * while chapters never mix with lessons because they use a different `type`.
  */
-export function LessonRow({ lesson, index, chapterId }: LessonRowProps) {
+export function LessonRow({ lesson, index, chapterId,courseId }: LessonRowProps) {
   const { ref, handleRef, isDragging, isDropTarget } = useSortable({
     id: lesson.id,
     index,
@@ -28,9 +31,10 @@ export function LessonRow({ lesson, index, chapterId }: LessonRowProps) {
     data: { chapterId },
   });
 
+  const [lessonId, setLessonId] = useState<string | null>(null)
+
   return (
-    <Link
-      href={`/courses/`}
+    <li
       ref={ref}
       className={cn(
         'group/lesson flex items-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm transition-colors',
@@ -62,20 +66,16 @@ export function LessonRow({ lesson, index, chapterId }: LessonRowProps) {
       )}
 
       <div className="min-w-0 flex-1">
-        <div className="truncate text-foreground">{lesson.title}</div>
-        {lesson.description && (
-          <div className="truncate text-xs text-muted-foreground">
-            {lesson.description}
-          </div>
-        )}
+        <div className="truncate text-foreground">
+          <Link
+            href={`/admin/courses/${courseId}/edit/lessons/${lesson.id}`}>
+            {lesson.title}
+          </Link>
+        </div>
       </div>
 
-      {!lesson.thumbnailKey && (
-        <ImageOff
-          className="h-3.5 w-3.5 shrink-0 text-muted-foreground/40"
-          aria-label="No thumbnail uploaded yet"
-        />
-      )}
-    </Link>
+      <DeleteLesson lessonId={lessonId ? lessonId : ''} onDelete={() => setLessonId(lesson.id)} />
+    </li>
   );
 }
+

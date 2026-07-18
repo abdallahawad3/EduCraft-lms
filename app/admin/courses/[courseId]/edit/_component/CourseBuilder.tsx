@@ -8,6 +8,8 @@ import {
   LessonPositionUpdate,
 } from '@/lib/types';
 import { usePathname } from 'next/navigation';
+import { toast } from 'sonner';
+import { updateChapterPositions, updateLessonPositions } from '../actions/update-course-position';
 import AddChapter from './AddCourse';
 interface MainStructureProps {
   courseId: string;
@@ -18,17 +20,29 @@ export default function MainStructure({
   initialData,
 }: MainStructureProps) {
   const COURSE_ID = usePathname().split('/')[3];
-  function handleReorderChapters(
+  async function handleReorderChapters(
     courseId: string,
     chapters: ChapterPositionUpdate[],
   ) {
-    console.log('Change Chapter');
+    const { success } = await updateChapterPositions(courseId, chapters);
+    if (!success) {
+      toast.error('Failed to update chapter positions');
+    } else {
+      toast.success('Chapter positions updated successfully');
+    }
   }
 
-  function handleReorderLessons(
+  async function handleReorderLessons(
     chapterId: string,
     lessons: LessonPositionUpdate[],
-  ) {}
+  ) {
+    const { success } = await updateLessonPositions(chapterId, lessons);
+    if (!success) {
+      toast.error('Failed to update lesson positions');
+    } else {
+      toast.success('Lesson positions updated successfully');
+    }
+  }
 
   return (
     <Card className="">

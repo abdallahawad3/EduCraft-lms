@@ -38,6 +38,7 @@ export interface UseCourseBuilderOptions {
     courseId: string,
     chapters: ChapterPositionUpdate[],
   ) => void;
+
   onReorderLessons?: (
     chapterId: string,
     lessons: LessonPositionUpdate[],
@@ -60,6 +61,7 @@ export function useCourseBuilder(
     {},
   );
 
+  // Sync server data when it arrives
   useEffect(() => {
     setChapterOrder(initial ?? []);
     setLessonsByChapter(toLessonsByChapter(initial ?? []));
@@ -72,13 +74,16 @@ export function useCourseBuilder(
 
     if (!isSortable(source)) return;
 
+    // Moving chapters
     if (source.type === ITEM_TYPE.CHAPTER) {
       setChapterOrder((chapters) => move(chapters, event));
+
       return;
     }
 
+    // Moving lessons
     if (source.type === ITEM_TYPE.LESSON) {
-      setLessonsByChapter((chapters) => move(chapters, event));
+      setLessonsByChapter((lessons) => move(lessons, event));
     }
   }, []);
 
@@ -87,30 +92,47 @@ export function useCourseBuilder(
     setLessonsByChapter(toLessonsByChapter(data.chapters));
   }, []);
 
-  const chapters = useMemo(() => {
+  const chapters = useMemo<Chapter[]>(() => {
     return chapterOrder.map((chapter, chapterIndex) => ({
       ...chapter,
+
       courseId,
+
       position: chapterIndex + 1,
+
       lessons: (lessonsByChapter[chapter.id] ?? []).map(
         (lesson, lessonIndex) => ({
           ...lesson,
+
           chapterId: chapter.id,
+
           position: lessonIndex + 1,
         }),
       ),
     }));
   }, [chapterOrder, lessonsByChapter, courseId]);
 
-  const chapterIdSignature = chapters.map((c) => c.id).join(',');
+  /**
+   * Update chapter positions
+   */
 
-  const isFirstChaptersRender = useRef(true);
+  const previousChapterOrder = useRef('');
 
   useEffect(() => {
-    if (isFirstChaptersRender.current) {
-      isFirstChaptersRender.current = false;
+    const currentOrder = chapters.map((chapter) => chapter.id).join(',');
+
+    // first render
+    if (!previousChapterOrder.current) {
+      previousChapterOrder.current = currentOrder;
       return;
     }
+
+    // nothing changed
+    if (previousChapterOrder.current === currentOrder) {
+      return;
+    }
+
+    previousChapterOrder.current = currentOrder;
 
     onReorderChapters?.(
       courseId,
@@ -119,24 +141,37 @@ export function useCourseBuilder(
         position,
       })),
     );
-  }, [chapterIdSignature, chapters, courseId, onReorderChapters]);
+  }, [chapters, courseId, onReorderChapters]);
 
-  const prevLessonSignatures = useRef<Record<string, string>>({});
+  /**
+   * Update lesson positions
+   */
+
+  const previousLessonOrders = useRef<Record<string, string>>({});
 
   useEffect(() => {
     for (const chapter of chapters) {
-      const signature = chapter.lessons.map((l) => l.id).join(',');
+      const currentOrder = chapter.lessons.map((lesson) => lesson.id).join(',');
 
-      const isFirst = prevLessonSignatures.current[chapter.id] === undefined;
+      const previousOrder = previousLessonOrders.current[chapter.id];
 
-      const changed = prevLessonSignatures.current[chapter.id] !== signature;
+      // save first state
+      if (!previousOrder) {
+        previousLessonOrders.current[chapter.id] = currentOrder;
 
-      prevLessonSignatures.current[chapter.id] = signature;
+        continue;
+      }
 
-      if (isFirst || !changed) continue;
+      // no change
+      if (previousOrder === currentOrder) {
+        continue;
+      }
+
+      previousLessonOrders.current[chapter.id] = currentOrder;
 
       onReorderLessons?.(
         chapter.id,
+
         chapter.lessons.map(({ id, position, chapterId }) => ({
           id,
           position,
@@ -145,6 +180,7 @@ export function useCourseBuilder(
       );
     }
   }, [chapters, onReorderLessons]);
+
   return {
     chapters,
     handleDragEnd,

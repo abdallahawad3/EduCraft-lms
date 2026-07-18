@@ -29,7 +29,7 @@ export function CourseBuilder({
 
   return (
     <DragDropProvider onDragEnd={handleDragEnd}>
-      <ol className={className ?? 'flex flex-col gap-3'}>
+      <ol  className={className ?? 'flex flex-col gap-3 px-4'}>
         {chapters.map((chapter, index) => (
           <ChapterCard key={chapter.id} chapter={chapter} index={index} />
         ))}
