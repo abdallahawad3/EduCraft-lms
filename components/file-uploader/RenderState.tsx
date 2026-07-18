@@ -7,6 +7,7 @@ interface IRenderStateProps {
   fileState: IUploaderState;
   isDragActive: boolean;
   handleDeleteFile: () => void;
+  type: 'image' | 'video';
 }
 export function RenderEmptyState({ isDragActive }: { isDragActive: boolean }) {
   return (
@@ -49,6 +50,7 @@ export function RenderUploadingContent({
   fileState,
   isDragActive,
   handleDeleteFile,
+  type,
 }: IRenderStateProps) {
   if (fileState.uploading && fileState.file) {
     return (
@@ -66,6 +68,7 @@ export function RenderUploadingContent({
   if (fileState.objectUrl) {
     return (
       <RenderUploadedContent
+        type={type}
         previewUrl={fileState.objectUrl}
         handleDeleteFile={handleDeleteFile}
       />
@@ -78,27 +81,42 @@ export function RenderUploadingContent({
 function RenderUploadedContent({
   previewUrl,
   handleDeleteFile,
+  type,
 }: {
   previewUrl: string;
   handleDeleteFile: () => void;
+  type: 'image' | 'video';
 }) {
+  console.log('Preview url', previewUrl);
+
   return (
     <div className="relative w-full h-full flex items-center justify-center">
-      <Image
-        src={previewUrl}
-        alt="Preview"
-        fill
-        className="object-contain p-2 relative"
-      />
+      {type === 'image' ? (
+        <>
+          <Image
+            src={previewUrl}
+            alt="Preview"
+            fill
+            className="object-contain p-2 relative"
+          />
 
-      <Button
-        className={cn('absolute top-4 right-4 z-10')}
-        size="icon"
-        variant={'destructive'}
-        onClick={handleDeleteFile}
-      >
-        <XIcon />
-      </Button>
+          <Button
+            className={cn('absolute top-4 right-4 z-10')}
+            size="icon"
+            variant={'destructive'}
+            onClick={handleDeleteFile}
+          >
+            <XIcon />
+          </Button>
+        </>
+      ) : (
+        <video controls className="w-full h-full object-contain">
+          <source src={previewUrl} type="video/mp4" />
+          <source src={previewUrl} type="video/webm" />
+          <source src={previewUrl} type="video/ogg" />
+          Your browser does not support the video tag.
+        </video>
+      )}
     </div>
   );
 }

@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { getImageUrl } from '@/utils/get-url';
+import { getS3Url } from '@/utils/get-url';
 import MainStructure from './_component/CourseBuilder';
 import EditCourseForm from './_component/EditCourseForm';
 import { getAllChapters } from './action';
@@ -22,7 +22,7 @@ const page = async ({ params }: IProps) => {
   const { courseId } = await params;
 
   const course = await adminGetCourse(courseId);
-  const imageUrl = await getImageUrl(course.fileKey);
+  const imageUrl = await getS3Url(course.fileKey);
   const chapters = await getAllChapters(courseId);
   return (
     <div>

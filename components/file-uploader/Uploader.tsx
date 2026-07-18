@@ -25,24 +25,32 @@ interface IUploaderProps {
   onChange?: (value: string) => void;
   value?: string;
   imageUrl?: string;
+  type?: 'image' | 'video';
+
+  videoUrl?: string;
 }
 
-const Uploader = ({ onChange, value, imageUrl }: IUploaderProps) => {
+const Uploader = ({
+  onChange,
+  value,
+  imageUrl,
+  videoUrl,
+  type,
+}: IUploaderProps) => {
   const [fileState, setFileState] = useState<IUploaderState>({
     error: false,
     file: null,
     id: null,
-    fileType: 'image',
+    fileType: type || 'image',
     isDeleting: false,
     progress: 0,
     uploading: false,
     key: value,
-    objectUrl: imageUrl || undefined,
+    objectUrl: imageUrl || videoUrl || undefined,
   });
 
   async function UploadFile(file: File) {
     setFileState((prev) => ({ ...prev, uploading: true, progress: 0 }));
-
     try {
       // 1- Get presigned url
       const presignedUrlResponse = await fetch('/api/s3/upload', {
@@ -177,18 +185,19 @@ const Uploader = ({ onChange, value, imageUrl }: IUploaderProps) => {
           objectUrl: URL.createObjectURL(file),
           error: false,
           id: uuidv4(),
-          fileType: 'image',
+          fileType: type || 'image',
           isDeleting: false,
         });
         UploadFile(file);
       }
     },
     accept: {
-      'image/*': [],
+      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp'],
+      'video/*': ['.mp4', '.mov', '.avi', '.mkv'],
     },
     maxFiles: 1,
     multiple: false,
-    maxSize: 5 * 1024 * 1024,
+    maxSize: type === 'image' ? 5 * 1024 * 1024 : 50 * 1024 * 1024, // 5MB for images, 100MB for videos
     disabled: fileState.uploading || fileState.isDeleting,
     onDropRejected: handleFileRejection,
   });
@@ -241,6 +250,7 @@ const Uploader = ({ onChange, value, imageUrl }: IUploaderProps) => {
       <CardContent className="flex items-center justify-center w-full h-full">
         <input {...getInputProps()} />
         <RenderUploadingContent
+          type={type || 'image'}
           handleDeleteFile={handleDeleteFile}
           fileState={fileState}
           isDragActive={isDragActive}

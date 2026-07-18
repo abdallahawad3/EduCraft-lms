@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { getImageUrl } from '@/utils/get-url';
+import { getS3Url } from '@/utils/get-url';
 import {
   ArrowRightIcon,
   Eye,
@@ -26,7 +26,7 @@ interface IProps {
 }
 
 const AdminCourseCard = async ({ course }: IProps) => {
-  const url = await getImageUrl(course.fileKey);
+  const url = await getS3Url(course.fileKey);
 
   return (
     <Card className="group relative py-0 gap-0">
