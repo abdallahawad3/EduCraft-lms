@@ -8,7 +8,7 @@ import MenuBar from './MenuBar';
 
 interface RichTextEditorProps {
   content?: string;
-  onChange?: (value: string) => void;
+  onChange?: (value: object) => void;
 }
 
 export default function RichTextEditor({
@@ -46,7 +46,7 @@ export default function RichTextEditor({
     if (!editor) return;
 
     const updateHandler = () => {
-      onChange?.(editor.getHTML());
+      onChange?.(editor.getJSON());
     };
 
     editor.on('update', updateHandler);

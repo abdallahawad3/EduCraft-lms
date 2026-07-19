@@ -37,7 +37,6 @@ export type LessonSumAggregateOutputType = {
 export type LessonMinAggregateOutputType = {
   id: string | null
   title: string | null
-  description: string | null
   thumbnailKey: string | null
   videoKey: string | null
   position: number | null
@@ -49,7 +48,6 @@ export type LessonMinAggregateOutputType = {
 export type LessonMaxAggregateOutputType = {
   id: string | null
   title: string | null
-  description: string | null
   thumbnailKey: string | null
   videoKey: string | null
   position: number | null
@@ -83,7 +81,6 @@ export type LessonSumAggregateInputType = {
 export type LessonMinAggregateInputType = {
   id?: true
   title?: true
-  description?: true
   thumbnailKey?: true
   videoKey?: true
   position?: true
@@ -95,7 +92,6 @@ export type LessonMinAggregateInputType = {
 export type LessonMaxAggregateInputType = {
   id?: true
   title?: true
-  description?: true
   thumbnailKey?: true
   videoKey?: true
   position?: true
@@ -206,7 +202,7 @@ export type LessonGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type LessonGroupByOutputType = {
   id: string
   title: string
-  description: string | null
+  description: runtime.JsonValue | null
   thumbnailKey: string | null
   videoKey: string | null
   position: number
@@ -241,7 +237,7 @@ export type LessonWhereInput = {
   NOT?: Prisma.LessonWhereInput | Prisma.LessonWhereInput[]
   id?: Prisma.StringFilter<"Lesson"> | string
   title?: Prisma.StringFilter<"Lesson"> | string
-  description?: Prisma.StringNullableFilter<"Lesson"> | string | null
+  description?: Prisma.JsonNullableFilter<"Lesson">
   thumbnailKey?: Prisma.StringNullableFilter<"Lesson"> | string | null
   videoKey?: Prisma.StringNullableFilter<"Lesson"> | string | null
   position?: Prisma.IntFilter<"Lesson"> | number
@@ -270,7 +266,7 @@ export type LessonWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.LessonWhereInput[]
   NOT?: Prisma.LessonWhereInput | Prisma.LessonWhereInput[]
   title?: Prisma.StringFilter<"Lesson"> | string
-  description?: Prisma.StringNullableFilter<"Lesson"> | string | null
+  description?: Prisma.JsonNullableFilter<"Lesson">
   thumbnailKey?: Prisma.StringNullableFilter<"Lesson"> | string | null
   videoKey?: Prisma.StringNullableFilter<"Lesson"> | string | null
   position?: Prisma.IntFilter<"Lesson"> | number
@@ -303,7 +299,7 @@ export type LessonScalarWhereWithAggregatesInput = {
   NOT?: Prisma.LessonScalarWhereWithAggregatesInput | Prisma.LessonScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Lesson"> | string
   title?: Prisma.StringWithAggregatesFilter<"Lesson"> | string
-  description?: Prisma.StringNullableWithAggregatesFilter<"Lesson"> | string | null
+  description?: Prisma.JsonNullableWithAggregatesFilter<"Lesson">
   thumbnailKey?: Prisma.StringNullableWithAggregatesFilter<"Lesson"> | string | null
   videoKey?: Prisma.StringNullableWithAggregatesFilter<"Lesson"> | string | null
   position?: Prisma.IntWithAggregatesFilter<"Lesson"> | number
@@ -315,7 +311,7 @@ export type LessonScalarWhereWithAggregatesInput = {
 export type LessonCreateInput = {
   id?: string
   title: string
-  description?: string | null
+  description?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   thumbnailKey?: string | null
   videoKey?: string | null
   position: number
@@ -327,7 +323,7 @@ export type LessonCreateInput = {
 export type LessonUncheckedCreateInput = {
   id?: string
   title: string
-  description?: string | null
+  description?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   thumbnailKey?: string | null
   videoKey?: string | null
   position: number
@@ -339,7 +335,7 @@ export type LessonUncheckedCreateInput = {
 export type LessonUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   thumbnailKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   position?: Prisma.IntFieldUpdateOperationsInput | number
@@ -351,7 +347,7 @@ export type LessonUpdateInput = {
 export type LessonUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   thumbnailKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   position?: Prisma.IntFieldUpdateOperationsInput | number
@@ -363,7 +359,7 @@ export type LessonUncheckedUpdateInput = {
 export type LessonCreateManyInput = {
   id?: string
   title: string
-  description?: string | null
+  description?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   thumbnailKey?: string | null
   videoKey?: string | null
   position: number
@@ -375,7 +371,7 @@ export type LessonCreateManyInput = {
 export type LessonUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   thumbnailKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   position?: Prisma.IntFieldUpdateOperationsInput | number
@@ -386,7 +382,7 @@ export type LessonUpdateManyMutationInput = {
 export type LessonUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   thumbnailKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   position?: Prisma.IntFieldUpdateOperationsInput | number
@@ -424,7 +420,6 @@ export type LessonAvgOrderByAggregateInput = {
 export type LessonMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
   thumbnailKey?: Prisma.SortOrder
   videoKey?: Prisma.SortOrder
   position?: Prisma.SortOrder
@@ -436,7 +431,6 @@ export type LessonMaxOrderByAggregateInput = {
 export type LessonMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
   thumbnailKey?: Prisma.SortOrder
   videoKey?: Prisma.SortOrder
   position?: Prisma.SortOrder
@@ -494,7 +488,7 @@ export type LessonUncheckedUpdateManyWithoutChapterNestedInput = {
 export type LessonCreateWithoutChapterInput = {
   id?: string
   title: string
-  description?: string | null
+  description?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   thumbnailKey?: string | null
   videoKey?: string | null
   position: number
@@ -505,7 +499,7 @@ export type LessonCreateWithoutChapterInput = {
 export type LessonUncheckedCreateWithoutChapterInput = {
   id?: string
   title: string
-  description?: string | null
+  description?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   thumbnailKey?: string | null
   videoKey?: string | null
   position: number
@@ -545,7 +539,7 @@ export type LessonScalarWhereInput = {
   NOT?: Prisma.LessonScalarWhereInput | Prisma.LessonScalarWhereInput[]
   id?: Prisma.StringFilter<"Lesson"> | string
   title?: Prisma.StringFilter<"Lesson"> | string
-  description?: Prisma.StringNullableFilter<"Lesson"> | string | null
+  description?: Prisma.JsonNullableFilter<"Lesson">
   thumbnailKey?: Prisma.StringNullableFilter<"Lesson"> | string | null
   videoKey?: Prisma.StringNullableFilter<"Lesson"> | string | null
   position?: Prisma.IntFilter<"Lesson"> | number
@@ -557,7 +551,7 @@ export type LessonScalarWhereInput = {
 export type LessonCreateManyChapterInput = {
   id?: string
   title: string
-  description?: string | null
+  description?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   thumbnailKey?: string | null
   videoKey?: string | null
   position: number
@@ -568,7 +562,7 @@ export type LessonCreateManyChapterInput = {
 export type LessonUpdateWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   thumbnailKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   position?: Prisma.IntFieldUpdateOperationsInput | number
@@ -579,7 +573,7 @@ export type LessonUpdateWithoutChapterInput = {
 export type LessonUncheckedUpdateWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   thumbnailKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   position?: Prisma.IntFieldUpdateOperationsInput | number
@@ -590,7 +584,7 @@ export type LessonUncheckedUpdateWithoutChapterInput = {
 export type LessonUncheckedUpdateManyWithoutChapterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   thumbnailKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   videoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   position?: Prisma.IntFieldUpdateOperationsInput | number
@@ -670,7 +664,7 @@ export type $LessonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
-    description: string | null
+    description: runtime.JsonValue | null
     thumbnailKey: string | null
     videoKey: string | null
     position: number
@@ -1103,7 +1097,7 @@ export interface Prisma__LessonClient<T, Null = never, ExtArgs extends runtime.T
 export interface LessonFieldRefs {
   readonly id: Prisma.FieldRef<"Lesson", 'String'>
   readonly title: Prisma.FieldRef<"Lesson", 'String'>
-  readonly description: Prisma.FieldRef<"Lesson", 'String'>
+  readonly description: Prisma.FieldRef<"Lesson", 'Json'>
   readonly thumbnailKey: Prisma.FieldRef<"Lesson", 'String'>
   readonly videoKey: Prisma.FieldRef<"Lesson", 'String'>
   readonly position: Prisma.FieldRef<"Lesson", 'Int'>

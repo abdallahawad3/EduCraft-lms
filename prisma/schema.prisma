@@ -92,7 +92,7 @@ enum CourseStatus {
 model Course {
   id               String       @id @default(uuid())
   title            String
-  description      String
+  description      Json
   fileKey          String
   price            Int
   duration         Int
@@ -122,11 +122,11 @@ model Chapter {
 model Lesson {
   id           String   @id @default(uuid())
   title        String
-  description  String?
+  description  Json?
   thumbnailKey String?
   videoKey     String?
   position     Int
-  chapter      Chapter  @relation(fields: [chapterId], references: [id],onDelete:Cascade)
+  chapter      Chapter  @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   chapterId    String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

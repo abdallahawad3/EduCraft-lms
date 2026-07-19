@@ -51,7 +51,6 @@ const CreateCoursePage = () => {
     resolver: zodResolver(CREATE_COURSE_SCHEME),
     defaultValues: {
       category: 'Web Development',
-      description: '',
       duration: '',
       fileKey: '',
       level: 'Beginner',

@@ -39,7 +39,6 @@ export type CourseSumAggregateOutputType = {
 export type CourseMinAggregateOutputType = {
   id: string | null
   title: string | null
-  description: string | null
   fileKey: string | null
   price: number | null
   duration: number | null
@@ -56,7 +55,6 @@ export type CourseMinAggregateOutputType = {
 export type CourseMaxAggregateOutputType = {
   id: string | null
   title: string | null
-  description: string | null
   fileKey: string | null
   price: number | null
   duration: number | null
@@ -102,7 +100,6 @@ export type CourseSumAggregateInputType = {
 export type CourseMinAggregateInputType = {
   id?: true
   title?: true
-  description?: true
   fileKey?: true
   price?: true
   duration?: true
@@ -119,7 +116,6 @@ export type CourseMinAggregateInputType = {
 export type CourseMaxAggregateInputType = {
   id?: true
   title?: true
-  description?: true
   fileKey?: true
   price?: true
   duration?: true
@@ -240,7 +236,7 @@ export type CourseGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type CourseGroupByOutputType = {
   id: string
   title: string
-  description: string
+  description: runtime.JsonValue
   fileKey: string
   price: number
   duration: number
@@ -280,7 +276,7 @@ export type CourseWhereInput = {
   NOT?: Prisma.CourseWhereInput | Prisma.CourseWhereInput[]
   id?: Prisma.StringFilter<"Course"> | string
   title?: Prisma.StringFilter<"Course"> | string
-  description?: Prisma.StringFilter<"Course"> | string
+  description?: Prisma.JsonFilter<"Course">
   fileKey?: Prisma.StringFilter<"Course"> | string
   price?: Prisma.IntFilter<"Course"> | number
   duration?: Prisma.IntFilter<"Course"> | number
@@ -322,7 +318,7 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CourseWhereInput[]
   NOT?: Prisma.CourseWhereInput | Prisma.CourseWhereInput[]
   title?: Prisma.StringFilter<"Course"> | string
-  description?: Prisma.StringFilter<"Course"> | string
+  description?: Prisma.JsonFilter<"Course">
   fileKey?: Prisma.StringFilter<"Course"> | string
   price?: Prisma.IntFilter<"Course"> | number
   duration?: Prisma.IntFilter<"Course"> | number
@@ -365,7 +361,7 @@ export type CourseScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CourseScalarWhereWithAggregatesInput | Prisma.CourseScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Course"> | string
   title?: Prisma.StringWithAggregatesFilter<"Course"> | string
-  description?: Prisma.StringWithAggregatesFilter<"Course"> | string
+  description?: Prisma.JsonWithAggregatesFilter<"Course">
   fileKey?: Prisma.StringWithAggregatesFilter<"Course"> | string
   price?: Prisma.IntWithAggregatesFilter<"Course"> | number
   duration?: Prisma.IntWithAggregatesFilter<"Course"> | number
@@ -382,7 +378,7 @@ export type CourseScalarWhereWithAggregatesInput = {
 export type CourseCreateInput = {
   id?: string
   title: string
-  description: string
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey: string
   price: number
   duration: number
@@ -400,7 +396,7 @@ export type CourseCreateInput = {
 export type CourseUncheckedCreateInput = {
   id?: string
   title: string
-  description: string
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey: string
   price: number
   duration: number
@@ -418,7 +414,7 @@ export type CourseUncheckedCreateInput = {
 export type CourseUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
@@ -436,7 +432,7 @@ export type CourseUpdateInput = {
 export type CourseUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
@@ -454,7 +450,7 @@ export type CourseUncheckedUpdateInput = {
 export type CourseCreateManyInput = {
   id?: string
   title: string
-  description: string
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey: string
   price: number
   duration: number
@@ -471,7 +467,7 @@ export type CourseCreateManyInput = {
 export type CourseUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
@@ -487,7 +483,7 @@ export type CourseUpdateManyMutationInput = {
 export type CourseUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
@@ -536,7 +532,6 @@ export type CourseAvgOrderByAggregateInput = {
 export type CourseMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
   fileKey?: Prisma.SortOrder
   price?: Prisma.SortOrder
   duration?: Prisma.SortOrder
@@ -553,7 +548,6 @@ export type CourseMaxOrderByAggregateInput = {
 export type CourseMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  description?: Prisma.SortOrder
   fileKey?: Prisma.SortOrder
   price?: Prisma.SortOrder
   duration?: Prisma.SortOrder
@@ -652,7 +646,7 @@ export type CourseUpdateOneRequiredWithoutChaptersNestedInput = {
 export type CourseCreateWithoutUserInput = {
   id?: string
   title: string
-  description: string
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey: string
   price: number
   duration: number
@@ -669,7 +663,7 @@ export type CourseCreateWithoutUserInput = {
 export type CourseUncheckedCreateWithoutUserInput = {
   id?: string
   title: string
-  description: string
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey: string
   price: number
   duration: number
@@ -715,7 +709,7 @@ export type CourseScalarWhereInput = {
   NOT?: Prisma.CourseScalarWhereInput | Prisma.CourseScalarWhereInput[]
   id?: Prisma.StringFilter<"Course"> | string
   title?: Prisma.StringFilter<"Course"> | string
-  description?: Prisma.StringFilter<"Course"> | string
+  description?: Prisma.JsonFilter<"Course">
   fileKey?: Prisma.StringFilter<"Course"> | string
   price?: Prisma.IntFilter<"Course"> | number
   duration?: Prisma.IntFilter<"Course"> | number
@@ -732,7 +726,7 @@ export type CourseScalarWhereInput = {
 export type CourseCreateWithoutChaptersInput = {
   id?: string
   title: string
-  description: string
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey: string
   price: number
   duration: number
@@ -749,7 +743,7 @@ export type CourseCreateWithoutChaptersInput = {
 export type CourseUncheckedCreateWithoutChaptersInput = {
   id?: string
   title: string
-  description: string
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey: string
   price: number
   duration: number
@@ -782,7 +776,7 @@ export type CourseUpdateToOneWithWhereWithoutChaptersInput = {
 export type CourseUpdateWithoutChaptersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
@@ -799,7 +793,7 @@ export type CourseUpdateWithoutChaptersInput = {
 export type CourseUncheckedUpdateWithoutChaptersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
@@ -816,7 +810,7 @@ export type CourseUncheckedUpdateWithoutChaptersInput = {
 export type CourseCreateManyUserInput = {
   id?: string
   title: string
-  description: string
+  description: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey: string
   price: number
   duration: number
@@ -832,7 +826,7 @@ export type CourseCreateManyUserInput = {
 export type CourseUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
@@ -849,7 +843,7 @@ export type CourseUpdateWithoutUserInput = {
 export type CourseUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
@@ -866,7 +860,7 @@ export type CourseUncheckedUpdateWithoutUserInput = {
 export type CourseUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1005,7 +999,7 @@ export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
-    description: string
+    description: runtime.JsonValue
     fileKey: string
     price: number
     duration: number
@@ -1444,7 +1438,7 @@ export interface Prisma__CourseClient<T, Null = never, ExtArgs extends runtime.T
 export interface CourseFieldRefs {
   readonly id: Prisma.FieldRef<"Course", 'String'>
   readonly title: Prisma.FieldRef<"Course", 'String'>
-  readonly description: Prisma.FieldRef<"Course", 'String'>
+  readonly description: Prisma.FieldRef<"Course", 'Json'>
   readonly fileKey: Prisma.FieldRef<"Course", 'String'>
   readonly price: Prisma.FieldRef<"Course", 'Int'>
   readonly duration: Prisma.FieldRef<"Course", 'Int'>
