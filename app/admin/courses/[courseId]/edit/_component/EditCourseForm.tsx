@@ -1,5 +1,4 @@
 'use client';
-
 import { AdminCourseType } from '@/actions/admin/get-admin-data';
 import Uploader from '@/components/file-uploader/Uploader';
 import RichTextEditor from '@/components/rich-text-editor/Editor';
@@ -26,6 +25,7 @@ import {
   CREATE_COURSE_SCHEME,
 } from '@/lib/validation/create-course';
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { JSONContent } from '@tiptap/react';
 import { PlusIcon, Stars } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
@@ -158,7 +158,7 @@ const EditCourseForm = ({
             <Field className="flex-1" data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="description">Description</FieldLabel>
               <RichTextEditor
-                content={data.description}
+                content={data.description as JSONContent}
                 onChange={field.onChange}
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

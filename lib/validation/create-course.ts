@@ -20,7 +20,7 @@ export const CREATE_COURSE_SCHEME = z.object({
   title: z.string().min(5, {
     message: 'Course title must be at least 5 characters long.',
   }),
-  description: z.json(),
+  description: z.any(),
   fileKey: z.string().min(1, {
     message: 'Please upload a course thumbnail or file.',
   }),

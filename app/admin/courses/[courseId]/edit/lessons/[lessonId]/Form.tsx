@@ -1,5 +1,6 @@
 'use client';
 
+import { AdminLesson } from '@/actions/admin/get-admin-lesson';
 import Uploader from '@/components/file-uploader/Uploader';
 import RichTextEditor from '@/components/rich-text-editor/Editor';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { ADD_LESSON_SCHEMA_WITH_OPTIONAL_FIELDS } from '@/lib/validation/add-lesson';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { JsonValue } from '@prisma/client/runtime/client';
 import { ArrowLeft, PlusIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
@@ -31,12 +33,7 @@ interface UpdateLessonFormProps {
   videoUrl?: string;
   courseId: string;
   lessonId: string;
-  lesson: {
-    title: string;
-    description: string | null;
-    thumbnailKey: string | null;
-    videoKey: string | null;
-  };
+  lesson: AdminLesson;
 }
 const UpdateLessonForm = ({
   lesson,
@@ -51,7 +48,9 @@ const UpdateLessonForm = ({
     resolver: zodResolver(ADD_LESSON_SCHEMA_WITH_OPTIONAL_FIELDS),
     defaultValues: {
       title: lesson.title,
-      description: lesson.description ? lesson.description : '',
+      description: lesson.description
+        ? (lesson.description as JsonValue)
+        : null,
       thumbnailKey: lesson.thumbnailKey ? lesson.thumbnailKey : '',
       videoKey: lesson.videoKey ? lesson.videoKey : '',
     },

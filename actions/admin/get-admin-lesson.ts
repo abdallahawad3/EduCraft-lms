@@ -24,3 +24,5 @@ export const getAdminLesson = async (courseId: string, lessonId: string) => {
 
   return lesson;
 };
+
+export type AdminLesson = Awaited<ReturnType<typeof getAdminLesson>>;

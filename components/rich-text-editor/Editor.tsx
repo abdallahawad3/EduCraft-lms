@@ -1,13 +1,13 @@
 'use client';
 
 import TextAlign from '@tiptap/extension-text-align';
-import { EditorContent, useEditor } from '@tiptap/react';
+import { EditorContent, JSONContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useEffect } from 'react';
 import MenuBar from './MenuBar';
 
 interface RichTextEditorProps {
-  content?: string;
+  content?: JSONContent | string;
   onChange?: (value: object) => void;
 }
 

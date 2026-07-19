@@ -6,6 +6,7 @@ import { Prisma } from '@/lib/generated/prisma/client';
 import type { JSONContent } from '@tiptap/react';
 import { ChartBarIcon, Play, TimerIcon } from 'lucide-react';
 import Image from 'next/image';
+import { CollapsibleChapters } from '../../_component/CollapsibleChapter';
 
 interface IProps {
   params: Promise<{
@@ -78,6 +79,15 @@ export default async function CoursePage({ params }: IProps) {
               ) || 0}
               Lessons
             </span>
+          </div>
+          <div className="space-y-4">
+            {course.chapters.map((chapter, key) => (
+              <CollapsibleChapters
+                idx={key}
+                key={chapter.id}
+                chapter={chapter}
+              />
+            ))}
           </div>
         </div>
       </div>
