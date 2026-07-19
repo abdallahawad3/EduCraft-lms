@@ -1,10 +1,21 @@
 import { getCourseBySlug } from '@/app/data/courses/get-course';
 import RenderDescription from '@/components/rich-text-editor/RenderDescription';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Prisma } from '@/lib/generated/prisma/client';
 import type { JSONContent } from '@tiptap/react';
-import { ChartBarIcon, Play, TimerIcon } from 'lucide-react';
+import {
+  ChartBarIcon,
+  ChartBarStacked,
+  ChartColumnStackedIcon,
+  CheckIcon,
+  ClockIcon,
+  LucideInfo,
+  Play,
+  TimerIcon,
+} from 'lucide-react';
 import Image from 'next/image';
 import { CollapsibleChapters } from '../../_component/CollapsibleChapter';
 
@@ -89,6 +100,121 @@ export default async function CoursePage({ params }: IProps) {
               />
             ))}
           </div>
+        </div>
+      </div>
+      <div className="order-2 lg:col-span-1">
+        <div className="sticky top-20">
+          <Card className="py-0">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <span className="text-xl font-medium">Price</span>
+                <span className="text-2xl font-bold text-primary">
+                  {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                  }).format(course.price)}
+                </span>
+              </div>
+              <div className="mt-6 space-y-3 rounded-lg bg-muted p-4">
+                <h4 className="text-lg font-medium mt-6 mb-2">
+                  What you will learn:
+                </h4>
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="size-9 p-1 bg-primary/10 flex items-center justify-center text-primary/90 rounded-full border-primary/20">
+                      <ClockIcon />
+                    </div>
+                    <div>
+                      <span className="text-xl text-muted-foreground">
+                        Course Duration
+                      </span>
+                      <p className="text-lg font-medium text-muted-foreground">
+                        {course.duration} h
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="size-9 p-1 bg-primary/10 flex items-center justify-center text-primary/90 rounded-full border-primary/20">
+                      <ChartBarStacked />
+                    </div>
+                    <div>
+                      <span className="text-xl text-muted-foreground">
+                        Difficulty Level
+                      </span>
+                      <p className="text-lg font-medium text-muted-foreground">
+                        {course.level}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="size-9 p-1 bg-primary/10 flex items-center justify-center text-primary/90 rounded-full border-primary/20">
+                      <LucideInfo />
+                    </div>
+                    <div>
+                      <span className="text-xl text-muted-foreground">
+                        Category
+                      </span>
+                      <p className="text-lg font-medium text-muted-foreground">
+                        {course.category}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="size-9 p-1 bg-primary/10 flex items-center justify-center text-primary/90 rounded-full border-primary/20">
+                      <ChartColumnStackedIcon />
+                    </div>
+                    <div>
+                      <span className="text-xl text-muted-foreground">
+                        Lessons Count
+                      </span>
+                      <p className="text-lg font-medium text-muted-foreground">
+                        {course.chapters.reduce(
+                          (total, chapter) => total + chapter.lessons.length,
+                          0,
+                        )}{' '}
+                        Lessons
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mb-6 space-y-3">
+                <h4 className="text-lg font-medium mt-6 mb-2">
+                  This course includes:
+                </h4>
+                <ul className="list-disc list-inside space-y-1">
+                  <li className="flex items-center gap-2">
+                    <div className="size-5  p-1 bg-primary/10 flex items-center justify-center text-primary/90 rounded-full border-primary/20">
+                      <CheckIcon className="" />
+                    </div>
+                    Lifetime access
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <div className="size-5  p-1 bg-primary/10 flex items-center justify-center text-primary/90 rounded-full border-primary/20">
+                      <CheckIcon className="" />
+                    </div>
+                    Mobile and TV access
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <div className="size-5  p-1 bg-primary/10 flex items-center justify-center text-primary/90 rounded-full border-primary/20">
+                      <CheckIcon className="" />
+                    </div>
+                    Certificate of completion
+                  </li>
+                </ul>
+              </div>
+              <Button className={'w-full'}>Enroll Now!</Button>
+              <p className="text-xs text-center text-muted-foreground mt-3">
+                30 Days Money Back Guarantee
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
