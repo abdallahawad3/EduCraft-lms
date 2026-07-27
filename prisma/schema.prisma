@@ -8,20 +8,22 @@ datasource db {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
-  courses       Course[]
-  role          String?
-  banned        Boolean?  @default(false)
-  banReason     String?
-  banExpires    DateTime?
+  id               String       @id
+  name             String
+  email            String
+  emailVerified    Boolean      @default(false)
+  image            String?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  sessions         Session[]
+  accounts         Account[]
+  courses          Course[]
+  role             String?
+  banned           Boolean?     @default(false)
+  banReason        String?
+  banExpires       DateTime?
+  enrollments      Enrollment[]
+  stripeCustomerId String?      @unique
 
   @@unique([email])
   @@map("user")
@@ -104,6 +106,7 @@ model Course {
   user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId           String
   chapters         Chapter[]
+  enrollments      Enrollment[]
   createAt         DateTime     @default(now())
   updateAt         DateTime     @updatedAt
 }
@@ -130,4 +133,24 @@ model Lesson {
   chapterId    String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+enum EnrollmentStatus {
+  Pending
+  Completed
+  Cancelled
+}
+
+model Enrollment {
+  id        String           @id @default(uuid())
+  amount    Int
+  course    Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId  String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  status    EnrollmentStatus @default(Pending)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@unique([userId, courseId])
 }

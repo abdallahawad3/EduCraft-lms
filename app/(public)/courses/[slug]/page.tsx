@@ -1,7 +1,8 @@
 import { getCourseBySlug } from '@/app/data/courses/get-course';
+import { isUserEnrolledInCourse } from '@/app/data/user/user-is-enrolled';
 import RenderDescription from '@/components/rich-text-editor/RenderDescription';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Prisma } from '@/lib/generated/prisma/client';
@@ -17,7 +18,9 @@ import {
   TimerIcon,
 } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { CollapsibleChapters } from '../../_component/CollapsibleChapter';
+import EnrollmentButton from './_components/EnrollmentButton';
 
 interface IProps {
   params: Promise<{
@@ -27,6 +30,7 @@ interface IProps {
 export default async function CoursePage({ params }: IProps) {
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
+  const isEnrolled = await isUserEnrolledInCourse(course.id);
 
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 mt-5">
@@ -209,7 +213,19 @@ export default async function CoursePage({ params }: IProps) {
                   </li>
                 </ul>
               </div>
-              <Button className={'w-full'}>Enroll Now!</Button>
+
+              <div className={'w-full'}>
+                {isEnrolled ? (
+                  <Link
+                    className={buttonVariants({ className: 'w-full' })}
+                    href={`/courses/${course.slug}/learn`}
+                  >
+                    Continue Learning
+                  </Link>
+                ) : (
+                  <EnrollmentButton courseId={course.id} />
+                )}
+              </div>
               <p className="text-xs text-center text-muted-foreground mt-3">
                 30 Days Money Back Guarantee
               </p>
