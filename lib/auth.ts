@@ -1,17 +1,21 @@
-import { betterAuth } from 'better-auth';
-import { prismaAdapter } from 'better-auth/adapters/prisma';
-import { admin, emailOTP } from 'better-auth/plugins';
-import prisma from './db';
-import { resend } from './resend';
+import { betterAuth } from "better-auth";
+import { prismaAdapter } from "better-auth/adapters/prisma";
+import { admin, emailOTP } from "better-auth/plugins";
+import prisma from "./db";
+import { resend } from "./resend";
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
-    provider: 'postgresql',
+    provider: "postgresql",
   }),
 
   socialProviders: {
     github: {
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    },
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     },
   },
 
@@ -20,9 +24,9 @@ export const auth = betterAuth({
     emailOTP({
       async sendVerificationOTP({ email, otp }) {
         await resend.emails.send({
-          from: 'Abdullah LMS <onboarding@resend.dev>',
+          from: "Abdullah LMS <onboarding@resend.dev>",
           to: [email],
-          subject: 'Abdullah LMS - Your One-Time Password (OTP)',
+          subject: "Abdullah LMS - Your One-Time Password (OTP)",
           html: `
               <html>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">

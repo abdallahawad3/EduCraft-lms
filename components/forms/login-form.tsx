@@ -57,6 +57,31 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       });
     });
   };
+  const loginWithGoogle = () => {
+    startTransition(async () => {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Login successful!", {
+              action: {
+                label: <XIcon />,
+                onClick: () => toast.dismiss(),
+              },
+              position: "top-right",
+            });
+          },
+          onError: (error) => {
+            console.error("Login failed:", error);
+            toast.error("Login failed!", {
+              position: "top-right",
+            });
+          },
+        },
+      });
+    });
+  };
   const router = useRouter();
   function onSubmit(data: z.infer<typeof loginSchema>) {
     const email = data.email;
@@ -130,7 +155,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                 </>
               )}
             </Button>
-            <Button disabled={isPending} variant="outline" type="button">
+            <Button onClick={loginWithGoogle} disabled={isPending} variant="outline" type="button">
               {isPending ? (
                 <>
                   <Loader2Icon className="size-4 animate-spin" />
