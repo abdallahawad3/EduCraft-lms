@@ -1,12 +1,12 @@
-import { getCourseBySlug } from '@/app/data/courses/get-course';
-import { isUserEnrolledInCourse } from '@/app/data/user/user-is-enrolled';
-import RenderDescription from '@/components/rich-text-editor/RenderDescription';
-import { Badge } from '@/components/ui/badge';
-import { buttonVariants } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { Prisma } from '@/lib/generated/prisma/client';
-import type { JSONContent } from '@tiptap/react';
+import { getCourseBySlug } from "@/app/data/courses/get-course";
+import { isUserEnrolledInCourse } from "@/app/data/user/user-is-enrolled";
+import RenderDescription from "@/components/rich-text-editor/RenderDescription";
+import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Prisma } from "@/lib/generated/prisma/client";
+import type { JSONContent } from "@tiptap/react";
 import {
   ChartBarIcon,
   ChartBarStacked,
@@ -16,11 +16,11 @@ import {
   LucideInfo,
   Play,
   TimerIcon,
-} from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { CollapsibleChapters } from '../../_component/CollapsibleChapter';
-import EnrollmentButton from './_components/EnrollmentButton';
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { CollapsibleChapters } from "../../_component/CollapsibleChapter";
+import EnrollmentButton from "./_components/EnrollmentButton";
 
 interface IProps {
   params: Promise<{
@@ -31,7 +31,7 @@ export default async function CoursePage({ params }: IProps) {
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
   const isEnrolled = await isUserEnrolledInCourse(course.id);
-
+  console.log(isEnrolled);
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 mt-5">
       <div className="order-1 lg:col-span-2">
@@ -49,12 +49,8 @@ export default async function CoursePage({ params }: IProps) {
         </div>
         <div className="mt-4 space-y-6">
           <div className="space-y-4">
-            <h1 className="text-3xl lg:text-4xl font-bold tracking-tight">
-              {course.title}
-            </h1>
-            <p className="text-muted-foreground leading-relaxed">
-              {course.smallDescription}
-            </p>
+            <h1 className="text-3xl lg:text-4xl font-bold tracking-tight">{course.title}</h1>
+            <p className="text-muted-foreground leading-relaxed">{course.smallDescription}</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Badge className="rounded-none p-4 text-lg font-medium">
@@ -73,35 +69,22 @@ export default async function CoursePage({ params }: IProps) {
         </div>
         <Separator className="my-6" />
         <div className="space-y-6">
-          <h2 className="text-3xl font-semibold tracking-tight">
-            Course Description
-          </h2>
-          <RenderDescription
-            description={course.description as Prisma.JsonObject as JSONContent}
-          />
+          <h2 className="text-3xl font-semibold tracking-tight">Course Description</h2>
+          <RenderDescription description={course.description as Prisma.JsonObject as JSONContent} />
         </div>
         <Separator className="my-6" />
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-3xl font-semibold tracking-tight">
-              Course Lessons
-            </h2>
+            <h2 className="text-3xl font-semibold tracking-tight">Course Lessons</h2>
             <span className="text-muted-foreground">
-              {course.chapters.length} Chapters |{' '}
-              {course.chapters.reduce(
-                (acc, chapter) => acc + chapter.lessons.length,
-                0,
-              ) || 0}
+              {course.chapters.length} Chapters |{" "}
+              {course.chapters.reduce((acc, chapter) => acc + chapter.lessons.length, 0) || 0}
               Lessons
             </span>
           </div>
           <div className="space-y-4">
             {course.chapters.map((chapter, key) => (
-              <CollapsibleChapters
-                idx={key}
-                key={chapter.id}
-                chapter={chapter}
-              />
+              <CollapsibleChapters idx={key} key={chapter.id} chapter={chapter} />
             ))}
           </div>
         </div>
@@ -113,25 +96,21 @@ export default async function CoursePage({ params }: IProps) {
               <div className="flex items-center justify-between">
                 <span className="text-xl font-medium">Price</span>
                 <span className="text-2xl font-bold text-primary">
-                  {new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
+                  {new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
                   }).format(course.price)}
                 </span>
               </div>
               <div className="mt-6 space-y-3 rounded-lg bg-muted p-4">
-                <h4 className="text-lg font-medium mt-6 mb-2">
-                  What you will learn:
-                </h4>
+                <h4 className="text-lg font-medium mt-6 mb-2">What you will learn:</h4>
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center gap-3">
                     <div className="size-9 p-1 bg-primary/10 flex items-center justify-center text-primary/90 rounded-full border-primary/20">
                       <ClockIcon />
                     </div>
                     <div>
-                      <span className="text-xl text-muted-foreground">
-                        Course Duration
-                      </span>
+                      <span className="text-xl text-muted-foreground">Course Duration</span>
                       <p className="text-lg font-medium text-muted-foreground">
                         {course.duration} h
                       </p>
@@ -144,12 +123,8 @@ export default async function CoursePage({ params }: IProps) {
                       <ChartBarStacked />
                     </div>
                     <div>
-                      <span className="text-xl text-muted-foreground">
-                        Difficulty Level
-                      </span>
-                      <p className="text-lg font-medium text-muted-foreground">
-                        {course.level}
-                      </p>
+                      <span className="text-xl text-muted-foreground">Difficulty Level</span>
+                      <p className="text-lg font-medium text-muted-foreground">{course.level}</p>
                     </div>
                   </div>
                 </div>
@@ -159,12 +134,8 @@ export default async function CoursePage({ params }: IProps) {
                       <LucideInfo />
                     </div>
                     <div>
-                      <span className="text-xl text-muted-foreground">
-                        Category
-                      </span>
-                      <p className="text-lg font-medium text-muted-foreground">
-                        {course.category}
-                      </p>
+                      <span className="text-xl text-muted-foreground">Category</span>
+                      <p className="text-lg font-medium text-muted-foreground">{course.category}</p>
                     </div>
                   </div>
                 </div>
@@ -174,14 +145,12 @@ export default async function CoursePage({ params }: IProps) {
                       <ChartColumnStackedIcon />
                     </div>
                     <div>
-                      <span className="text-xl text-muted-foreground">
-                        Lessons Count
-                      </span>
+                      <span className="text-xl text-muted-foreground">Lessons Count</span>
                       <p className="text-lg font-medium text-muted-foreground">
                         {course.chapters.reduce(
                           (total, chapter) => total + chapter.lessons.length,
                           0,
-                        )}{' '}
+                        )}{" "}
                         Lessons
                       </p>
                     </div>
@@ -189,9 +158,7 @@ export default async function CoursePage({ params }: IProps) {
                 </div>
               </div>
               <div className="mb-6 space-y-3">
-                <h4 className="text-lg font-medium mt-6 mb-2">
-                  This course includes:
-                </h4>
+                <h4 className="text-lg font-medium mt-6 mb-2">This course includes:</h4>
                 <ul className="list-disc list-inside space-y-1">
                   <li className="flex items-center gap-2">
                     <div className="size-5  p-1 bg-primary/10 flex items-center justify-center text-primary/90 rounded-full border-primary/20">
@@ -214,10 +181,10 @@ export default async function CoursePage({ params }: IProps) {
                 </ul>
               </div>
 
-              <div className={'w-full'}>
+              <div className={"w-full"}>
                 {isEnrolled ? (
                   <Link
-                    className={buttonVariants({ className: 'w-full' })}
+                    className={buttonVariants({ className: "w-full" })}
                     href={`/courses/${course.slug}/learn`}
                   >
                     Continue Learning

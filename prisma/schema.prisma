@@ -98,6 +98,7 @@ model Course {
   fileKey          String
   price            Int
   duration         Int
+  stripePriceId    String       @unique
   level            CourseLevel  @default(Beginner)
   status           CourseStatus @default(Draft)
   category         String

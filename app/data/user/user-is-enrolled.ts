@@ -1,10 +1,8 @@
-import { auth } from '@/lib/auth';
-import prisma from '@/lib/db';
-import { headers } from 'next/headers';
+import { auth } from "@/lib/auth";
+import prisma from "@/lib/db";
+import { headers } from "next/headers";
 
-export async function isUserEnrolledInCourse(
-  courseId: string,
-): Promise<boolean> {
+export async function isUserEnrolledInCourse(courseId: string): Promise<boolean> {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -25,5 +23,5 @@ export async function isUserEnrolledInCourse(
     },
   });
 
-  return enrolledCourses?.status === 'Completed' ? true : false;
+  return enrolledCourses?.status === "Completed" ? true : false;
 }

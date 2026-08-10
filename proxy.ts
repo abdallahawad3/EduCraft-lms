@@ -1,18 +1,18 @@
-import { auth } from '@/lib/auth';
-import arcjet, { detectBot, fixedWindow } from '@arcjet/next';
-import { headers } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
+import { auth } from "@/lib/auth";
+import arcjet, { detectBot, fixedWindow } from "@arcjet/next";
+import { headers } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
 const aj = arcjet({
   key: process.env.ARCJET_KEY!,
   rules: [
     detectBot({
-      mode: 'LIVE',
-      allow: ['CATEGORY:SEARCH_ENGINE', 'CATEGORY:MONITOR', 'CATEGORY:PREVIEW'],
+      mode: "LIVE",
+      allow: ["CATEGORY:SEARCH_ENGINE", "CATEGORY:MONITOR", "CATEGORY:PREVIEW", "STRIPE_WEBHOOK"],
     }),
     fixedWindow({
-      mode: 'LIVE',
-      window: '1m',
+      mode: "LIVE",
+      window: "1m",
       max: 5,
     }),
   ],
@@ -24,7 +24,7 @@ export async function proxy(request: NextRequest) {
   if (decision.isDenied()) {
     return NextResponse.json(
       {
-        error: 'Access denied',
+        error: "Access denied",
       },
       {
         status: 403,
@@ -37,12 +37,12 @@ export async function proxy(request: NextRequest) {
   });
 
   if (!session) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ["/admin/:path*"],
 };

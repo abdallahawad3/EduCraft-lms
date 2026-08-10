@@ -148,6 +148,7 @@ export const CourseScalarFieldEnum = {
   fileKey: 'fileKey',
   price: 'price',
   duration: 'duration',
+  stripePriceId: 'stripePriceId',
   level: 'level',
   status: 'status',
   category: 'category',

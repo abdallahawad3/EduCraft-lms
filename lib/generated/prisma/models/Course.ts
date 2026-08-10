@@ -42,6 +42,7 @@ export type CourseMinAggregateOutputType = {
   fileKey: string | null
   price: number | null
   duration: number | null
+  stripePriceId: string | null
   level: $Enums.CourseLevel | null
   status: $Enums.CourseStatus | null
   category: string | null
@@ -58,6 +59,7 @@ export type CourseMaxAggregateOutputType = {
   fileKey: string | null
   price: number | null
   duration: number | null
+  stripePriceId: string | null
   level: $Enums.CourseLevel | null
   status: $Enums.CourseStatus | null
   category: string | null
@@ -75,6 +77,7 @@ export type CourseCountAggregateOutputType = {
   fileKey: number
   price: number
   duration: number
+  stripePriceId: number
   level: number
   status: number
   category: number
@@ -103,6 +106,7 @@ export type CourseMinAggregateInputType = {
   fileKey?: true
   price?: true
   duration?: true
+  stripePriceId?: true
   level?: true
   status?: true
   category?: true
@@ -119,6 +123,7 @@ export type CourseMaxAggregateInputType = {
   fileKey?: true
   price?: true
   duration?: true
+  stripePriceId?: true
   level?: true
   status?: true
   category?: true
@@ -136,6 +141,7 @@ export type CourseCountAggregateInputType = {
   fileKey?: true
   price?: true
   duration?: true
+  stripePriceId?: true
   level?: true
   status?: true
   category?: true
@@ -240,6 +246,7 @@ export type CourseGroupByOutputType = {
   fileKey: string
   price: number
   duration: number
+  stripePriceId: string
   level: $Enums.CourseLevel
   status: $Enums.CourseStatus
   category: string
@@ -280,6 +287,7 @@ export type CourseWhereInput = {
   fileKey?: Prisma.StringFilter<"Course"> | string
   price?: Prisma.IntFilter<"Course"> | number
   duration?: Prisma.IntFilter<"Course"> | number
+  stripePriceId?: Prisma.StringFilter<"Course"> | string
   level?: Prisma.EnumCourseLevelFilter<"Course"> | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusFilter<"Course"> | $Enums.CourseStatus
   category?: Prisma.StringFilter<"Course"> | string
@@ -300,6 +308,7 @@ export type CourseOrderByWithRelationInput = {
   fileKey?: Prisma.SortOrder
   price?: Prisma.SortOrder
   duration?: Prisma.SortOrder
+  stripePriceId?: Prisma.SortOrder
   level?: Prisma.SortOrder
   status?: Prisma.SortOrder
   category?: Prisma.SortOrder
@@ -315,6 +324,7 @@ export type CourseOrderByWithRelationInput = {
 
 export type CourseWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  stripePriceId?: string
   slug?: string
   AND?: Prisma.CourseWhereInput | Prisma.CourseWhereInput[]
   OR?: Prisma.CourseWhereInput[]
@@ -334,7 +344,7 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   chapters?: Prisma.ChapterListRelationFilter
   enrollments?: Prisma.EnrollmentListRelationFilter
-}, "id" | "slug">
+}, "id" | "stripePriceId" | "slug">
 
 export type CourseOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -343,6 +353,7 @@ export type CourseOrderByWithAggregationInput = {
   fileKey?: Prisma.SortOrder
   price?: Prisma.SortOrder
   duration?: Prisma.SortOrder
+  stripePriceId?: Prisma.SortOrder
   level?: Prisma.SortOrder
   status?: Prisma.SortOrder
   category?: Prisma.SortOrder
@@ -368,6 +379,7 @@ export type CourseScalarWhereWithAggregatesInput = {
   fileKey?: Prisma.StringWithAggregatesFilter<"Course"> | string
   price?: Prisma.IntWithAggregatesFilter<"Course"> | number
   duration?: Prisma.IntWithAggregatesFilter<"Course"> | number
+  stripePriceId?: Prisma.StringWithAggregatesFilter<"Course"> | string
   level?: Prisma.EnumCourseLevelWithAggregatesFilter<"Course"> | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusWithAggregatesFilter<"Course"> | $Enums.CourseStatus
   category?: Prisma.StringWithAggregatesFilter<"Course"> | string
@@ -385,6 +397,7 @@ export type CourseCreateInput = {
   fileKey: string
   price: number
   duration: number
+  stripePriceId: string
   level?: $Enums.CourseLevel
   status?: $Enums.CourseStatus
   category: string
@@ -404,6 +417,7 @@ export type CourseUncheckedCreateInput = {
   fileKey: string
   price: number
   duration: number
+  stripePriceId: string
   level?: $Enums.CourseLevel
   status?: $Enums.CourseStatus
   category: string
@@ -423,6 +437,7 @@ export type CourseUpdateInput = {
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
+  stripePriceId?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.EnumCourseLevelFieldUpdateOperationsInput | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -442,6 +457,7 @@ export type CourseUncheckedUpdateInput = {
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
+  stripePriceId?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.EnumCourseLevelFieldUpdateOperationsInput | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -461,6 +477,7 @@ export type CourseCreateManyInput = {
   fileKey: string
   price: number
   duration: number
+  stripePriceId: string
   level?: $Enums.CourseLevel
   status?: $Enums.CourseStatus
   category: string
@@ -478,6 +495,7 @@ export type CourseUpdateManyMutationInput = {
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
+  stripePriceId?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.EnumCourseLevelFieldUpdateOperationsInput | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -494,6 +512,7 @@ export type CourseUncheckedUpdateManyInput = {
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
+  stripePriceId?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.EnumCourseLevelFieldUpdateOperationsInput | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -521,6 +540,7 @@ export type CourseCountOrderByAggregateInput = {
   fileKey?: Prisma.SortOrder
   price?: Prisma.SortOrder
   duration?: Prisma.SortOrder
+  stripePriceId?: Prisma.SortOrder
   level?: Prisma.SortOrder
   status?: Prisma.SortOrder
   category?: Prisma.SortOrder
@@ -542,6 +562,7 @@ export type CourseMaxOrderByAggregateInput = {
   fileKey?: Prisma.SortOrder
   price?: Prisma.SortOrder
   duration?: Prisma.SortOrder
+  stripePriceId?: Prisma.SortOrder
   level?: Prisma.SortOrder
   status?: Prisma.SortOrder
   category?: Prisma.SortOrder
@@ -558,6 +579,7 @@ export type CourseMinOrderByAggregateInput = {
   fileKey?: Prisma.SortOrder
   price?: Prisma.SortOrder
   duration?: Prisma.SortOrder
+  stripePriceId?: Prisma.SortOrder
   level?: Prisma.SortOrder
   status?: Prisma.SortOrder
   category?: Prisma.SortOrder
@@ -671,6 +693,7 @@ export type CourseCreateWithoutUserInput = {
   fileKey: string
   price: number
   duration: number
+  stripePriceId: string
   level?: $Enums.CourseLevel
   status?: $Enums.CourseStatus
   category: string
@@ -689,6 +712,7 @@ export type CourseUncheckedCreateWithoutUserInput = {
   fileKey: string
   price: number
   duration: number
+  stripePriceId: string
   level?: $Enums.CourseLevel
   status?: $Enums.CourseStatus
   category: string
@@ -736,6 +760,7 @@ export type CourseScalarWhereInput = {
   fileKey?: Prisma.StringFilter<"Course"> | string
   price?: Prisma.IntFilter<"Course"> | number
   duration?: Prisma.IntFilter<"Course"> | number
+  stripePriceId?: Prisma.StringFilter<"Course"> | string
   level?: Prisma.EnumCourseLevelFilter<"Course"> | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusFilter<"Course"> | $Enums.CourseStatus
   category?: Prisma.StringFilter<"Course"> | string
@@ -753,6 +778,7 @@ export type CourseCreateWithoutChaptersInput = {
   fileKey: string
   price: number
   duration: number
+  stripePriceId: string
   level?: $Enums.CourseLevel
   status?: $Enums.CourseStatus
   category: string
@@ -771,6 +797,7 @@ export type CourseUncheckedCreateWithoutChaptersInput = {
   fileKey: string
   price: number
   duration: number
+  stripePriceId: string
   level?: $Enums.CourseLevel
   status?: $Enums.CourseStatus
   category: string
@@ -805,6 +832,7 @@ export type CourseUpdateWithoutChaptersInput = {
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
+  stripePriceId?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.EnumCourseLevelFieldUpdateOperationsInput | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -823,6 +851,7 @@ export type CourseUncheckedUpdateWithoutChaptersInput = {
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
+  stripePriceId?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.EnumCourseLevelFieldUpdateOperationsInput | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -841,6 +870,7 @@ export type CourseCreateWithoutEnrollmentsInput = {
   fileKey: string
   price: number
   duration: number
+  stripePriceId: string
   level?: $Enums.CourseLevel
   status?: $Enums.CourseStatus
   category: string
@@ -859,6 +889,7 @@ export type CourseUncheckedCreateWithoutEnrollmentsInput = {
   fileKey: string
   price: number
   duration: number
+  stripePriceId: string
   level?: $Enums.CourseLevel
   status?: $Enums.CourseStatus
   category: string
@@ -893,6 +924,7 @@ export type CourseUpdateWithoutEnrollmentsInput = {
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
+  stripePriceId?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.EnumCourseLevelFieldUpdateOperationsInput | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -911,6 +943,7 @@ export type CourseUncheckedUpdateWithoutEnrollmentsInput = {
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
+  stripePriceId?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.EnumCourseLevelFieldUpdateOperationsInput | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -929,6 +962,7 @@ export type CourseCreateManyUserInput = {
   fileKey: string
   price: number
   duration: number
+  stripePriceId: string
   level?: $Enums.CourseLevel
   status?: $Enums.CourseStatus
   category: string
@@ -945,6 +979,7 @@ export type CourseUpdateWithoutUserInput = {
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
+  stripePriceId?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.EnumCourseLevelFieldUpdateOperationsInput | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -963,6 +998,7 @@ export type CourseUncheckedUpdateWithoutUserInput = {
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
+  stripePriceId?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.EnumCourseLevelFieldUpdateOperationsInput | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -981,6 +1017,7 @@ export type CourseUncheckedUpdateManyWithoutUserInput = {
   fileKey?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.IntFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
+  stripePriceId?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.EnumCourseLevelFieldUpdateOperationsInput | $Enums.CourseLevel
   status?: Prisma.EnumCourseStatusFieldUpdateOperationsInput | $Enums.CourseStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1037,6 +1074,7 @@ export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   fileKey?: boolean
   price?: boolean
   duration?: boolean
+  stripePriceId?: boolean
   level?: boolean
   status?: boolean
   category?: boolean
@@ -1058,6 +1096,7 @@ export type CourseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   fileKey?: boolean
   price?: boolean
   duration?: boolean
+  stripePriceId?: boolean
   level?: boolean
   status?: boolean
   category?: boolean
@@ -1076,6 +1115,7 @@ export type CourseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   fileKey?: boolean
   price?: boolean
   duration?: boolean
+  stripePriceId?: boolean
   level?: boolean
   status?: boolean
   category?: boolean
@@ -1094,6 +1134,7 @@ export type CourseSelectScalar = {
   fileKey?: boolean
   price?: boolean
   duration?: boolean
+  stripePriceId?: boolean
   level?: boolean
   status?: boolean
   category?: boolean
@@ -1104,7 +1145,7 @@ export type CourseSelectScalar = {
   updateAt?: boolean
 }
 
-export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "fileKey" | "price" | "duration" | "level" | "status" | "category" | "smallDescription" | "slug" | "userId" | "createAt" | "updateAt", ExtArgs["result"]["course"]>
+export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "fileKey" | "price" | "duration" | "stripePriceId" | "level" | "status" | "category" | "smallDescription" | "slug" | "userId" | "createAt" | "updateAt", ExtArgs["result"]["course"]>
 export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   chapters?: boolean | Prisma.Course$chaptersArgs<ExtArgs>
@@ -1132,6 +1173,7 @@ export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     fileKey: string
     price: number
     duration: number
+    stripePriceId: string
     level: $Enums.CourseLevel
     status: $Enums.CourseStatus
     category: string
@@ -1572,6 +1614,7 @@ export interface CourseFieldRefs {
   readonly fileKey: Prisma.FieldRef<"Course", 'String'>
   readonly price: Prisma.FieldRef<"Course", 'Int'>
   readonly duration: Prisma.FieldRef<"Course", 'Int'>
+  readonly stripePriceId: Prisma.FieldRef<"Course", 'String'>
   readonly level: Prisma.FieldRef<"Course", 'CourseLevel'>
   readonly status: Prisma.FieldRef<"Course", 'CourseStatus'>
   readonly category: Prisma.FieldRef<"Course", 'String'>

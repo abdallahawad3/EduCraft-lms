@@ -1,14 +1,13 @@
-import { AdminCourseType } from '@/actions/admin/get-admin-data';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { AdminCourseType } from "@/actions/admin/get-admin-data";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { getS3Url } from '@/utils/get-url';
+} from "@/components/ui/dropdown-menu";
 import {
   ArrowRightIcon,
   Eye,
@@ -17,17 +16,16 @@ import {
   School,
   TimerIcon,
   Trash2,
-} from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 interface IProps {
   course: AdminCourseType[0];
 }
 
 const AdminCourseCard = async ({ course }: IProps) => {
-  const url = await getS3Url(course.fileKey);
-
+  console.log(course);
   return (
     <Card className="group relative py-0 gap-0">
       {/* Absolute Drop down */}
@@ -36,40 +34,28 @@ const AdminCourseCard = async ({ course }: IProps) => {
           <DropdownMenuTrigger
             suppressHydrationWarning
             render={
-              <Button
-                className={'bg-white/90 py-4! hover:bg-white/80'}
-                size={'icon'}
-              >
+              <Button className={"bg-white/90 py-4! hover:bg-white/80"} size={"icon"}>
                 <MoreVertical size={4} className="text-black" />
               </Button>
             }
           />
 
-          <DropdownMenuContent align="end" className={'w-48'}>
+          <DropdownMenuContent align="end" className={"w-48"}>
             <DropdownMenuItem>
-              <Link
-                className={'flex items-center'}
-                href={`/admin/courses/${course.id}/edit`}
-              >
+              <Link className={"flex items-center"} href={`/admin/courses/${course.id}/edit`}>
                 <PencilIcon className="size-4 mr-2" />
                 Edit Course
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link
-                className={'flex items-center'}
-                href={`/admin/courses/${course.slug}`}
-              >
+              <Link className={"flex items-center"} href={`/admin/courses/${course.slug}`}>
                 <Eye className="size-4 mr-2" />
                 Preview
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem variant="destructive">
-              <Link
-                className={'flex items-center '}
-                href={`/admin/courses/${course.id}/edit`}
-              >
+              <Link className={"flex items-center "} href={`/admin/courses/${course.id}/edit`}>
                 <Trash2 className="size-4 mr-2" />
                 Delete Course
               </Link>
@@ -79,7 +65,7 @@ const AdminCourseCard = async ({ course }: IProps) => {
       </div>
       <Image
         loading="eager"
-        src={url}
+        src={course.imageUrl}
         alt={course.title}
         width={600}
         height={400}
@@ -109,7 +95,7 @@ const AdminCourseCard = async ({ course }: IProps) => {
         <Link
           href={`/admin/courses/${course.id}/edit`}
           className={buttonVariants({
-            className: 'w-full mt-4',
+            className: "w-full mt-4",
           })}
         >
           Edit Course

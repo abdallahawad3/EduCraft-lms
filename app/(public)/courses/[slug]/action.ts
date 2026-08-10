@@ -1,25 +1,23 @@
-'use server';
+"use server";
 
-import { requiredUser } from '@/app/data/user/required-user';
-import arcjet, { fixedWindow } from '@/lib/arcjet';
-import prisma from '@/lib/db';
-import { stripe } from '@/lib/stripe';
-import { ApiResponse } from '@/lib/types';
-import { request } from '@arcjet/next';
-import { redirect } from 'next/navigation';
-import Stripe from 'stripe';
+import { requiredUser } from "@/app/data/user/required-user";
+import arcjet, { fixedWindow } from "@/lib/arcjet";
+import prisma from "@/lib/db";
+import { stripe } from "@/lib/stripe";
+import { ApiResponse } from "@/lib/types";
+import { request } from "@arcjet/next";
+import { redirect } from "next/navigation";
+import Stripe from "stripe";
 
 const aj = arcjet.withRule(
   fixedWindow({
-    mode: 'LIVE',
-    window: '1m',
+    mode: "LIVE",
+    window: "1m",
     max: 5,
   }),
 );
 
-export async function enrollInCourseAction(
-  courseId: string,
-): Promise<ApiResponse | never> {
+export async function enrollInCourseAction(courseId: string): Promise<ApiResponse | never> {
   const user = await requiredUser();
   let checkoutUrl: string;
   try {
@@ -30,8 +28,8 @@ export async function enrollInCourseAction(
 
     if (decision.isDenied()) {
       return {
-        message: 'Too many requests. Please try again later.',
-        status: 'error',
+        message: "Too many requests. Please try again later.",
+        status: "error",
       };
     }
     const course = await prisma.course.findUnique({
@@ -46,8 +44,8 @@ export async function enrollInCourseAction(
 
     if (!course) {
       return {
-        message: 'Course not found',
-        status: 'error',
+        message: "Course not found",
+        status: "error",
       };
     }
     let stripCustomerId: string;
@@ -88,10 +86,10 @@ export async function enrollInCourseAction(
           id: true,
         },
       });
-      if (existingEnrollment?.status === 'Completed') {
+      if (existingEnrollment?.status === "Completed") {
         return {
-          message: 'You have already enrolled in this course',
-          status: 'success',
+          message: "You have already enrolled in this course",
+          status: "success",
         };
       }
 
@@ -104,7 +102,7 @@ export async function enrollInCourseAction(
           },
           data: {
             amount: course.price,
-            status: 'Pending',
+            status: "Completed",
             updatedAt: new Date(),
           },
         });
@@ -114,23 +112,23 @@ export async function enrollInCourseAction(
             userId: user.id,
             courseId: course.id,
             amount: course.price,
-            status: 'Pending',
+            status: "Completed",
           },
         });
       }
 
       const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        mode: 'payment',
+        payment_method_types: ["card"],
+        mode: "payment",
         customer: stripCustomerId,
         line_items: [
           {
             quantity: 1,
-            price: 'price_1TxqOjP4glHLkJSLhEMSm6Rq',
+            price: "price_1TxqOjP4glHLkJSLhEMSm6Rq",
           },
         ],
-        success_url: `${process.env.BETTER_AUTH_URL}/payment/success?enrollmentId=${enrollment.id}`,
-        cancel_url: `${process.env.BETTER_AUTH_URL}/payment/cancel?enrollmentId=${enrollment.id}`,
+        success_url: `${process.env.BETTER_AUTH_URL}/payments/success?enrollmentId=${enrollment.id}`,
+        cancel_url: `${process.env.BETTER_AUTH_URL}/payments/cancel?enrollmentId=${enrollment.id}`,
         metadata: {
           userId: user.id,
           courseId: course.id,
@@ -148,13 +146,13 @@ export async function enrollInCourseAction(
   } catch (error) {
     if (error instanceof Stripe.errors.StripeAPIError) {
       return {
-        message: 'Stripe API error occurred',
-        status: 'error',
+        message: "Stripe API error occurred",
+        status: "error",
       };
     }
     return {
-      message: 'Failed to enroll in course',
-      status: 'error',
+      message: "Failed to enroll in course",
+      status: "error",
     };
   }
 

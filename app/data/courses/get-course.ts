@@ -1,8 +1,8 @@
-'use server';
+"use server";
 
-import prisma from '@/lib/db';
-import { getS3Url } from '@/utils/get-url';
-import { notFound } from 'next/navigation';
+import prisma from "@/lib/db";
+import { getS3Url } from "@/utils/get-url";
+import { notFound } from "next/navigation";
 
 export async function getCourseBySlug(slug: string) {
   const course = await prisma.course.findUnique({
@@ -28,12 +28,12 @@ export async function getCourseBySlug(slug: string) {
               title: true,
             },
             orderBy: {
-              position: 'asc',
+              position: "asc",
             },
           },
         },
         orderBy: {
-          position: 'asc',
+          position: "asc",
         },
       },
     },
