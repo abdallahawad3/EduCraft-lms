@@ -10,18 +10,49 @@ const aj = arcjet({
       mode: "LIVE",
       allow: ["CATEGORY:SEARCH_ENGINE", "CATEGORY:MONITOR", "CATEGORY:PREVIEW", "STRIPE_WEBHOOK"],
     }),
+
     fixedWindow({
       mode: "LIVE",
       window: "1m",
-      max: 5,
+      max: 30,
     }),
   ],
 });
 
 export async function proxy(request: NextRequest) {
+  // 1. Check Arcjet first
   const decision = await aj.protect(request);
 
   if (decision.isDenied()) {
+    console.log("❌ Arcjet denied request:", {
+      reason: decision.reason,
+      results: decision.results,
+      url: request.url,
+      userAgent: request.headers.get("user-agent"),
+    });
+
+    if (decision.reason.isRateLimit()) {
+      return NextResponse.json(
+        {
+          error: "Too many requests",
+        },
+        {
+          status: 429,
+        },
+      );
+    }
+
+    if (decision.reason.isBot()) {
+      return NextResponse.json(
+        {
+          error: "Bot detected",
+        },
+        {
+          status: 403,
+        },
+      );
+    }
+
     return NextResponse.json(
       {
         error: "Access denied",
@@ -32,6 +63,7 @@ export async function proxy(request: NextRequest) {
     );
   }
 
+  // 2. Check authentication
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -40,6 +72,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  // 3. User is authenticated and Arcjet allowed the request
   return NextResponse.next();
 }
 

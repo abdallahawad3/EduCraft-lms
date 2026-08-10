@@ -1,5 +1,4 @@
-"use client";
-
+import { adminGetDashboardStatus } from "@/app/data/admin/admin-get-dashboard";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ColumnsSettingsIcon,
@@ -8,7 +7,9 @@ import {
   UsersIcon,
 } from "lucide-react";
 
-export function SectionCards() {
+export async function SectionCards() {
+  const { totalCourses, totalCustomers, totalLessons, totalUsers } =
+    await adminGetDashboardStatus();
   return (
     <div className="grid grid-cols-1 gap-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
       <Card className="@container/card">
@@ -16,7 +17,7 @@ export function SectionCards() {
           <div>
             <CardDescription>Total Signup</CardDescription>
             <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-              2500
+              {totalUsers}
             </CardTitle>
           </div>
           <ColumnsSettingsIcon />
@@ -30,7 +31,7 @@ export function SectionCards() {
           <div>
             <CardDescription>Total Customers</CardDescription>
             <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-              1200
+              {totalCustomers}
             </CardTitle>
           </div>
           <UsersIcon />
@@ -44,7 +45,7 @@ export function SectionCards() {
           <div>
             <CardDescription>Total Courses</CardDescription>
             <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-              100
+              {totalCourses}
             </CardTitle>
           </div>
 
@@ -59,7 +60,7 @@ export function SectionCards() {
           <div>
             <CardDescription>Total Lessons</CardDescription>
             <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-              10000
+              {totalLessons}
             </CardTitle>
           </div>
           <LucideSplitSquareHorizontal />
