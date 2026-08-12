@@ -84,8 +84,6 @@ export async function createCourse(courseData: CourseSchemeType): Promise<ApiRes
       data: course,
     };
   } catch (error) {
-    console.log("error ======> ", error);
-
     return {
       status: "error",
       message: "Something went wrong",

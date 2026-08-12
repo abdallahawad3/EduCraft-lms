@@ -7,7 +7,6 @@ export const requiredUser = cache(async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  console.log(session);
 
   if (!session) {
     redirect("/login");

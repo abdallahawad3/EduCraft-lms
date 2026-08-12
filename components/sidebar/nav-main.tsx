@@ -1,5 +1,9 @@
 "use client";
 
+import { CirclePlusIcon, LayoutDashboardIcon, type LucideIcon } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -7,8 +11,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { CirclePlusIcon } from "lucide-react";
-import Link from "next/link";
+import { cn } from "@/lib/utils";
+
+const iconMap: Record<string, LucideIcon> = {
+  dashboard: LayoutDashboardIcon,
+};
 
 export function NavMain({
   items,
@@ -16,33 +23,54 @@ export function NavMain({
   items: {
     title: string;
     url: string;
-    icon?: React.ReactNode;
+    icon?: string;
   }[];
 }) {
+  const pathname = usePathname();
+  const isAdmin = pathname?.startsWith("/admin");
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
           <SidebarMenuItem className="flex items-center gap-2">
-            <SidebarMenuButton
-              tooltip="Quick Create"
-              className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
-              render={<Link href="/admin/courses/create" />}
-            >
-              <CirclePlusIcon />
-              <span>Quick Create</span>
-            </SidebarMenuButton>
+            {isAdmin && (
+              <SidebarMenuButton
+                tooltip="Quick Create"
+                className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
+                render={<Link href="/admin/courses/create" />}
+              >
+                <CirclePlusIcon />
+                <span>Quick Create</span>
+              </SidebarMenuButton>
+            )}
           </SidebarMenuItem>
         </SidebarMenu>
+
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton render={<Link href={item.url} />} tooltip={item.title}>
-                {item.icon}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {items.map((item) => {
+            const Icon = item.icon ? iconMap[item.icon] : undefined;
+
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  render={
+                    <Link
+                      href={item.url}
+                      className={cn(pathname === item.url && "bg-accent text-accent-foreground")}
+                    />
+                  }
+                  tooltip={item.title}
+                >
+                  {Icon && (
+                    <Icon className={cn("size-5!", pathname === item.url && "text-primary")} />
+                  )}
+
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

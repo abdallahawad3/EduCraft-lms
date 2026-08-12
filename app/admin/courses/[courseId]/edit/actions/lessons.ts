@@ -1,17 +1,14 @@
 "use server";
 
-import prisma from '@/lib/db';
-import { revalidatePath } from 'next/cache';
+import prisma from "@/lib/db";
+import { revalidatePath } from "next/cache";
 
-export const addLessonToChapter = async (
-  chapterId: string,
-  lessonTitle: string,
-) => {
+export const addLessonToChapter = async (chapterId: string, lessonTitle: string) => {
   try {
-    if (!lessonTitle || lessonTitle.trim() === '') {
+    if (!lessonTitle || lessonTitle.trim() === "") {
       return {
-        message: 'Lesson title is required',
-        status: 'error',
+        message: "Lesson title is required",
+        status: "error",
       };
     }
 
@@ -20,7 +17,7 @@ export const addLessonToChapter = async (
         chapterId,
       },
       orderBy: {
-        position: 'desc',
+        position: "desc",
       },
     });
 
@@ -36,15 +33,14 @@ export const addLessonToChapter = async (
 
     revalidatePath(`/admin/courses/${chapterId}/edit`);
     return {
-      message: 'Lesson added successfully',
-      status: 'success',
+      message: "Lesson added successfully",
+      status: "success",
       data: lesson,
     };
   } catch (error) {
-    console.log(error);
     return {
-      message: 'Something went wrong',
-      status: 'error',
+      message: "Something went wrong",
+      status: "error",
     };
   }
 };
@@ -59,14 +55,13 @@ export const deleteLesson = async (lessonId: string) => {
 
     revalidatePath(`/admin/courses/${lessonId}/edit`);
     return {
-      message: 'Lesson deleted successfully',
-      status: 'success',
+      message: "Lesson deleted successfully",
+      status: "success",
     };
   } catch (error) {
-    console.log(error);
     return {
-      message: 'Something went wrong',
-      status: 'error',
+      message: "Something went wrong",
+      status: "error",
     };
   }
 };

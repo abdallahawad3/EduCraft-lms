@@ -25,7 +25,6 @@ interface IProps {
 }
 
 const AdminCourseCard = async ({ course }: IProps) => {
-  console.log(course);
   return (
     <Card className="group relative py-0 gap-0">
       {/* Absolute Drop down */}

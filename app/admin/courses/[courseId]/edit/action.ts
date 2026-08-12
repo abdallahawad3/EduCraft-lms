@@ -1,28 +1,19 @@
-'use server';
-import { requiredAdmin } from '@/app/data/admin/required-admin';
-import prisma from '@/lib/db';
-import { ApiResponse } from '@/lib/types';
-import {
-  ADD_CHAPTER_SCHEMA,
-  AddChapterSchemaType,
-} from '@/lib/validation/add-chapter';
-import {
-  CourseSchemeType,
-  CREATE_COURSE_SCHEME,
-} from '@/lib/validation/create-course';
-import { revalidatePath } from 'next/cache';
+"use server";
+import { requiredAdmin } from "@/app/data/admin/required-admin";
+import prisma from "@/lib/db";
+import { ApiResponse } from "@/lib/types";
+import { ADD_CHAPTER_SCHEMA, AddChapterSchemaType } from "@/lib/validation/add-chapter";
+import { CourseSchemeType, CREATE_COURSE_SCHEME } from "@/lib/validation/create-course";
+import { revalidatePath } from "next/cache";
 
-export async function updateCourse(
-  data: CourseSchemeType,
-  courseId: string,
-): Promise<ApiResponse> {
+export async function updateCourse(data: CourseSchemeType, courseId: string): Promise<ApiResponse> {
   const session = await requiredAdmin();
   try {
     const validation = CREATE_COURSE_SCHEME.safeParse(data);
     if (!validation.success) {
       return {
-        message: 'Enter valid data',
-        status: 'error',
+        message: "Enter valid data",
+        status: "error",
       };
     }
 
@@ -46,16 +37,14 @@ export async function updateCourse(
     });
 
     return {
-      message: 'Course added succyfully',
-      status: 'success',
+      message: "Course added succyfully",
+      status: "success",
       data: course,
     };
   } catch (error) {
-    console.log(error);
-
     return {
-      message: 'Something happen',
-      status: 'error',
+      message: "Something happen",
+      status: "error",
     };
   }
 }
@@ -72,15 +61,15 @@ export async function addChapter({
     const validation = ADD_CHAPTER_SCHEMA.safeParse(data);
     if (!validation.success) {
       return {
-        message: 'Enter valid data',
-        status: 'error',
+        message: "Enter valid data",
+        status: "error",
       };
     }
 
     if (!courseId) {
       return {
-        message: 'Course ID is required',
-        status: 'error',
+        message: "Course ID is required",
+        status: "error",
       };
     }
 
@@ -89,7 +78,7 @@ export async function addChapter({
         courseId,
       },
       orderBy: {
-        position: 'desc',
+        position: "desc",
       },
       select: {
         position: true,
@@ -108,16 +97,14 @@ export async function addChapter({
 
     revalidatePath(`/admin/courses/${courseId}/edit`);
     return {
-      message: 'Course added succyfully',
-      status: 'success',
+      message: "Course added succyfully",
+      status: "success",
       data: chapter,
     };
   } catch (error) {
-    console.log(error);
-
     return {
-      message: 'Something happen',
-      status: 'error',
+      message: "Something happen",
+      status: "error",
     };
   }
 }
@@ -130,28 +117,26 @@ export async function getAllChapters(courseId: string): Promise<ApiResponse> {
         courseId,
       },
       orderBy: {
-        position: 'asc',
+        position: "asc",
       },
       include: {
         lessons: {
           orderBy: {
-            position: 'asc',
+            position: "asc",
           },
         },
       },
     });
 
     return {
-      message: 'Chapters fetched successfully',
-      status: 'success',
+      message: "Chapters fetched successfully",
+      status: "success",
       data: chapters,
     };
   } catch (error) {
-    console.log(error);
-
     return {
-      message: 'Something happen',
-      status: 'error',
+      message: "Something happen",
+      status: "error",
     };
   }
 }

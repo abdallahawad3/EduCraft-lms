@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 
-import { NavMain } from '@/components/sidebar/nav-main';
-import { NavSecondary } from '@/components/sidebar/nav-secondary';
-import { NavUser } from '@/components/sidebar/nav-user';
+import { NavMain } from "@/components/sidebar/nav-main";
+import { NavSecondary } from "@/components/sidebar/nav-secondary";
+import { NavUser } from "@/components/sidebar/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -13,113 +13,104 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar';
-import {
-  LayoutDashboardIcon,
-  ChartBarIcon,
-  FolderIcon,
-  UsersIcon,
-  CameraIcon,
-  FileTextIcon,
-  Settings2Icon,
-  CircleHelpIcon,
-  SearchIcon,
-  CommandIcon,
-  PenIcon,
-} from 'lucide-react';
-import Link from 'next/link';
+} from "@/components/ui/sidebar";
+
+import Link from "next/link";
+import { CommandIcon } from "lucide-react";
 
 const data = {
   navMain: [
     {
-      title: 'Dashboard',
-      url: '/admin',
-      icon: <LayoutDashboardIcon />,
+      title: "Dashboard",
+      url: "/admin",
+      icon: "dashboard",
     },
     {
-      title: 'Courses',
-      url: '/admin/courses',
-      icon: <PenIcon />,
+      title: "Courses",
+      url: "/admin/courses",
+      icon: "courses",
     },
     {
-      title: 'Analytics',
-      url: '#',
-      icon: <ChartBarIcon />,
+      title: "Analytics",
+      url: "#",
+      icon: "analytics",
     },
     {
-      title: 'Projects',
-      url: '#',
-      icon: <FolderIcon />,
+      title: "Projects",
+      url: "#",
+      icon: "projects",
     },
     {
-      title: 'Team',
-      url: '#',
-      icon: <UsersIcon />,
+      title: "Team",
+      url: "#",
+      icon: "team",
     },
   ],
+
   navClouds: [
     {
-      title: 'Capture',
-      icon: <CameraIcon />,
+      title: "Capture",
+      icon: "camera",
       isActive: true,
-      url: '#',
+      url: "#",
       items: [
         {
-          title: 'Active Proposals',
-          url: '#',
+          title: "Active Proposals",
+          url: "#",
         },
         {
-          title: 'Archived',
-          url: '#',
+          title: "Archived",
+          url: "#",
         },
       ],
     },
     {
-      title: 'Proposal',
-      icon: <FileTextIcon />,
-      url: '#',
+      title: "Proposal",
+      icon: "file-text",
+      url: "#",
       items: [
         {
-          title: 'Active Proposals',
-          url: '#',
+          title: "Active Proposals",
+          url: "#",
         },
         {
-          title: 'Archived',
-          url: '#',
+          title: "Archived",
+          url: "#",
         },
       ],
     },
     {
-      title: 'Prompts',
-      icon: <FileTextIcon />,
-      url: '#',
+      title: "Prompts",
+      icon: "file-text",
+      url: "#",
       items: [
         {
-          title: 'Active Proposals',
-          url: '#',
+          title: "Active Proposals",
+          url: "#",
         },
         {
-          title: 'Archived',
-          url: '#',
+          title: "Archived",
+          url: "#",
         },
       ],
     },
   ],
+
   navSecondary: [
     {
-      title: 'Settings',
-      url: '#',
-      icon: <Settings2Icon />,
+      title: "Settings",
+      url: "#",
+      icon: "settings",
     },
     {
-      title: 'Get Help',
-      url: '#',
-      icon: <CircleHelpIcon />,
+      title: "Get Help",
+      url: "#",
+      icon: "help",
     },
     {
-      title: 'Search',
-      url: '#',
-      icon: <SearchIcon />,
+      title: "Search",
+      url: "#",
+      icon: "search",
     },
   ],
 };

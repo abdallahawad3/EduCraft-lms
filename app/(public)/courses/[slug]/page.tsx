@@ -31,7 +31,6 @@ export default async function CoursePage({ params }: IProps) {
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
   const isEnrolled = await isUserEnrolledInCourse(course.id);
-  console.log(isEnrolled);
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 mt-5">
       <div className="order-1 lg:col-span-2">

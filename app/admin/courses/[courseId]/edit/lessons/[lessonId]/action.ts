@@ -1,8 +1,8 @@
-'use server';
+"use server";
 
-import prisma from '@/lib/db';
-import { revalidatePath } from 'next/cache';
-import { notFound } from 'next/navigation';
+import prisma from "@/lib/db";
+import { revalidatePath } from "next/cache";
+import { notFound } from "next/navigation";
 
 type UpdateLessonProps = {
   courseId: string;
@@ -43,7 +43,7 @@ export async function updateLesson({
     },
     data: {
       title,
-      description,
+      description: JSON.parse(JSON.stringify(description)),
       thumbnailKey,
       videoKey,
     },
