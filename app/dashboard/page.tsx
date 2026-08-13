@@ -1,10 +1,10 @@
-import { getAllCourses } from "@/actions/admin/get-admin-data";
 import { getEnrolledUser } from "../data/user/get-enrolled-user";
 import Link from "next/link";
 import PublicCourseCard from "../(public)/_component/PublicCourseCard";
+import { getPublicCourses } from "../data/courses/get-courses";
 
 export default async function Page() {
-  const [allCourses, enrolledCourses] = await Promise.all([getAllCourses(), getEnrolledUser()]);
+  const [allCourses, enrolledCourses] = await Promise.all([getPublicCourses(), getEnrolledUser()]);
 
   return (
     <>
@@ -34,15 +34,11 @@ export default async function Page() {
           <p>You are enrolled in the following courses:</p>
           <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 ">
             {enrolledCourses.map((course) => (
-              // <PublicCourseCard data={course.course} key={course.id} />
-              <Link
-                href={`/dashboard/${course.course.slug}`}
-                key={course.id}
-                className="block rounded-lg border border-gray-200 p-4 hover:bg-gray-50"
-              >
-                <h3 className="text-lg font-semibold">{course.course.title}</h3>
-                <p className="text-sm text-gray-500">{course.course.smallDescription}</p>
-              </Link>
+              <PublicCourseCard
+                key={course.course.slug}
+                courseUrl={course.course.slug}
+                data={course.course}
+              />
             ))}
           </div>
         </>

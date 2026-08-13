@@ -184,7 +184,7 @@ export default async function CoursePage({ params }: IProps) {
                 {isEnrolled ? (
                   <Link
                     className={buttonVariants({ className: "w-full" })}
-                    href={`/courses/${course.slug}/learn`}
+                    href={`/dashboard/${course.slug}`}
                   >
                     Continue Learning
                   </Link>
