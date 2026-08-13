@@ -296,8 +296,8 @@ export type CourseWhereInput = {
   userId?: Prisma.StringFilter<"Course"> | string
   createAt?: Prisma.DateTimeFilter<"Course"> | Date | string
   updateAt?: Prisma.DateTimeFilter<"Course"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   chapters?: Prisma.ChapterListRelationFilter
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   enrollments?: Prisma.EnrollmentListRelationFilter
 }
 
@@ -317,8 +317,8 @@ export type CourseOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   createAt?: Prisma.SortOrder
   updateAt?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
   chapters?: Prisma.ChapterOrderByRelationAggregateInput
+  user?: Prisma.UserOrderByWithRelationInput
   enrollments?: Prisma.EnrollmentOrderByRelationAggregateInput
 }
 
@@ -341,8 +341,8 @@ export type CourseWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"Course"> | string
   createAt?: Prisma.DateTimeFilter<"Course"> | Date | string
   updateAt?: Prisma.DateTimeFilter<"Course"> | Date | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   chapters?: Prisma.ChapterListRelationFilter
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   enrollments?: Prisma.EnrollmentListRelationFilter
 }, "id" | "stripePriceId" | "slug">
 
@@ -405,8 +405,8 @@ export type CourseCreateInput = {
   slug: string
   createAt?: Date | string
   updateAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutCoursesInput
   chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  user: Prisma.UserCreateNestedOneWithoutCoursesInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutCourseInput
 }
 
@@ -445,8 +445,8 @@ export type CourseUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
   chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutCourseNestedInput
 }
 
@@ -878,8 +878,8 @@ export type CourseCreateWithoutEnrollmentsInput = {
   slug: string
   createAt?: Date | string
   updateAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutCoursesInput
   chapters?: Prisma.ChapterCreateNestedManyWithoutCourseInput
+  user: Prisma.UserCreateNestedOneWithoutCoursesInput
 }
 
 export type CourseUncheckedCreateWithoutEnrollmentsInput = {
@@ -932,8 +932,8 @@ export type CourseUpdateWithoutEnrollmentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
   chapters?: Prisma.ChapterUpdateManyWithoutCourseNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutCoursesNestedInput
 }
 
 export type CourseUncheckedUpdateWithoutEnrollmentsInput = {
@@ -1083,8 +1083,8 @@ export type CourseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   userId?: boolean
   createAt?: boolean
   updateAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   chapters?: boolean | Prisma.Course$chaptersArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   enrollments?: boolean | Prisma.Course$enrollmentsArgs<ExtArgs>
   _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["course"]>
@@ -1147,8 +1147,8 @@ export type CourseSelectScalar = {
 
 export type CourseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "fileKey" | "price" | "duration" | "stripePriceId" | "level" | "status" | "category" | "smallDescription" | "slug" | "userId" | "createAt" | "updateAt", ExtArgs["result"]["course"]>
 export type CourseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   chapters?: boolean | Prisma.Course$chaptersArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   enrollments?: boolean | Prisma.Course$enrollmentsArgs<ExtArgs>
   _count?: boolean | Prisma.CourseCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1162,8 +1162,8 @@ export type CourseIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type $CoursePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Course"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
     chapters: Prisma.$ChapterPayload<ExtArgs>[]
+    user: Prisma.$UserPayload<ExtArgs>
     enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1576,8 +1576,8 @@ readonly fields: CourseFieldRefs;
  */
 export interface Prisma__CourseClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   chapters<T extends Prisma.Course$chaptersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$chaptersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChapterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   enrollments<T extends Prisma.Course$enrollmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Course$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
