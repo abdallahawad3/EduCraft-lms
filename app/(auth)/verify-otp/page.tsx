@@ -1,7 +1,7 @@
 "use client";
 
 import { RefreshCwIcon } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,13 +20,9 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useState } from "react";
-import { authClient } from "@/lib/auth-client";
-import { toast } from "sonner";
-
 export default function VerifyOTPPage() {
   const params = useSearchParams();
   const email = params.get("email");
-  const router = useRouter();
   const [otp, setOtp] = useState("");
   const submitOtp = async () => {
     if (!email) return;
@@ -34,23 +30,6 @@ export default function VerifyOTPPage() {
       alert("Please enter a valid 6-digit OTP.");
       return;
     }
-    await authClient.signIn.emailOtp({
-      email: email!,
-      otp: otp,
-      fetchOptions: {
-        onSuccess: () => {
-          router.push("/");
-          toast.success("Login successful!", {
-            position: "top-right",
-          });
-        },
-        onError: () => {
-          toast.error("Login failed!", {
-            position: "top-right",
-          });
-        },
-      },
-    });
   };
   return (
     <Card className="max-w-sm md:max-w-md w-full">
