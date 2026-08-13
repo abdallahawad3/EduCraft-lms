@@ -18,6 +18,7 @@ export async function getCourseSidebar(slug: string) {
       level: true,
       category: true,
       slug: true,
+
       chapters: {
         orderBy: {
           position: "asc",
@@ -31,6 +32,17 @@ export async function getCourseSidebar(slug: string) {
               position: "asc",
             },
             select: {
+              lessonProgress: {
+                where: {
+                  userId: user.id,
+                },
+                select: {
+                  completed: true,
+                  lessonId: true,
+                  id: true,
+                },
+              },
+
               id: true,
               title: true,
               position: true,

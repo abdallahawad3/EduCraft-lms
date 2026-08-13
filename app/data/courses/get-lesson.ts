@@ -19,9 +19,23 @@ export async function getLessonContent(id: string) {
       thumbnailKey: true,
       videoKey: true,
       position: true,
+      lessonProgress: {
+        where: {
+          userId: user.id,
+        },
+        select: {
+          lessonId: true,
+          completed: true,
+        },
+      },
       chapter: {
         select: {
           courseId: true,
+          course: {
+            select: {
+              slug: true,
+            },
+          },
         },
       },
     },

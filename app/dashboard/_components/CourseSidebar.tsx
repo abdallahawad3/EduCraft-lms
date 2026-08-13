@@ -1,13 +1,16 @@
+"use client";
 import type { CourseSidebar } from "@/app/data/courses/get-course-sidebar";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Progress } from "@/components/ui/progress";
 import { ChevronDown, PlayIcon } from "lucide-react";
 import LessonItem from "./LessonItem";
+import { useCourseProgress } from "@/hooks/use-progress-course";
 interface ICourseSidebarProps {
   course: CourseSidebar["course"];
 }
-const CourseSidebar = async ({ course }: ICourseSidebarProps) => {
+const CourseSidebar = ({ course }: ICourseSidebarProps) => {
+  const { progressPercentage, totalComplete, totalLesson } = useCourseProgress({ course });
   return (
     <div className="flex flex-col h-full">
       <div className="pb-4 pr-4 border-b border-border">
@@ -23,11 +26,13 @@ const CourseSidebar = async ({ course }: ICourseSidebarProps) => {
         <div className="space-y-2">
           <div className="flex justify-between text-xs">
             <span className="text-muted-foreground">Progress</span>
-            <span className="font-medium">4/10 lessons</span>
+            <span className="font-medium">
+              {totalComplete}/{totalLesson} lessons
+            </span>
           </div>
 
-          <Progress value={55} className="h-2" />
-          <p className="text-xs text-muted-foreground">55% complete</p>
+          <Progress value={progressPercentage} className="h-2" />
+          <p className="text-xs text-muted-foreground">{progressPercentage}% complete</p>
         </div>
       </div>
       <div className="py-4 pr-4 space-y-3">
@@ -57,7 +62,13 @@ const CourseSidebar = async ({ course }: ICourseSidebarProps) => {
             <CollapsibleContent className={"mt-3 pl-6 border-l-2 space-y-3"}>
               {chapter.lessons.map((lesson) => (
                 <div key={lesson.id} className="text-sm text-muted-foreground truncate">
-                  <LessonItem lesson={lesson} slug={course.slug} />
+                  <LessonItem
+                    completed={
+                      lesson.lessonProgress.find((less) => lesson.id == less.id)?.completed || false
+                    }
+                    lesson={lesson}
+                    slug={course.slug}
+                  />
                 </div>
               ))}
             </CollapsibleContent>
