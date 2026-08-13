@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { DropdownMenuAvatar } from "./UserLinks";
 import { buttonVariants } from "@/components/ui/button";
+import { GraduationCap } from "lucide-react";
 
 const NAVIGATION_LINKS = [
   { name: "Courses", href: "/courses" },
@@ -18,13 +19,9 @@ const Navbar = () => {
     <header className="sticky top-0 z-50 w-full backdrop-blur-[backdrop-filter]:bg-background/60 bg-background/90 border-b">
       <div className="container  mx-auto px-5 md:px-20 flex items-center min-h-16">
         <Link href="/" className="flex items-center space-x-2">
-          <Image
-            src="/images/logo.webp"
-            alt="Logo"
-            width={40}
-            height={40}
-            className="inline-block ml-2"
-          />
+          <div className=" flex size-10 items-center justify-center rounded-xl">
+            <GraduationCap className="size-7 text-primary" />
+          </div>
           AbdullahLMS.
         </Link>
         {/* Desktop Navigation */}

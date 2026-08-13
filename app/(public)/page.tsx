@@ -102,7 +102,7 @@ const page = async () => {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 sm:grid-rows-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <section className="grid grid-cols-1 px-5 md:px-20 sm:grid-rows-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {FEATURES.map((feature, index) => (
           <Card
             className="hover:shadow-2xl hover:scale-[1.02] transition-transform  duration-300"

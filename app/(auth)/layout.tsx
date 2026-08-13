@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 import Image from "next/image";
 import Link from "next/link";
+import { GraduationCap } from "lucide-react";
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth.api.getSession({
@@ -16,7 +17,9 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
       <div className="flex flex-col items-center gap-2 text-center">
         <Link href="/" className="flex items-center gap-1">
-          <Image src="/images/logo.webp" alt="Logo" width={70} height={70} />
+          <div className="flex size-10 items-center justify-center rounded-md mr-2 bg-primary/10">
+            <GraduationCap className="size-7 text-primary" />
+          </div>
           <span className="sr-only">AbdullahLMS.</span>
           <p className="font-bold -ml-2">Welcome to LMS.</p>
         </Link>
