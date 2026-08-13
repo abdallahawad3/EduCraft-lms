@@ -81,3 +81,8 @@ export type Lesson = Prisma.LessonModel
  * 
  */
 export type Enrollment = Prisma.EnrollmentModel
+/**
+ * Model LessonProgress
+ * 
+ */
+export type LessonProgress = Prisma.LessonProgressModel
