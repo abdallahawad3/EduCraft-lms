@@ -1,3 +1,5 @@
+"use client";
+
 import { AdminCourseType } from "@/actions/admin/get-admin-data";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,12 +21,14 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { deleteCourse } from "../delete/action";
+import { toast } from "sonner";
 
 interface IProps {
   course: AdminCourseType[0];
 }
 
-const AdminCourseCard = async ({ course }: IProps) => {
+const AdminCourseCard = ({ course }: IProps) => {
   return (
     <Card className="group relative py-0 gap-0">
       {/* Absolute Drop down */}
@@ -53,11 +57,18 @@ const AdminCourseCard = async ({ course }: IProps) => {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive">
-              <Link className={"flex items-center "} href={`/admin/courses/${course.id}/edit`}>
-                <Trash2 className="size-4 mr-2" />
-                Delete Course
-              </Link>
+            <DropdownMenuItem
+              onClick={async () => {
+                const { status } = await deleteCourse(course.id);
+
+                if (status === "success") {
+                  toast.success("The course deleted successfully");
+                }
+              }}
+              variant="destructive"
+            >
+              <Trash2 className="size-4 mr-2" />
+              Delete Course
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
