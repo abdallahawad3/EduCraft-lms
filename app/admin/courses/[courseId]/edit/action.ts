@@ -42,6 +42,7 @@ export async function updateCourse(data: CourseSchemeType, courseId: string): Pr
       data: course,
     };
   } catch (error) {
+    console.log(error);
     return {
       message: "Something happen",
       status: "error",
@@ -102,6 +103,7 @@ export async function addChapter({
       data: chapter,
     };
   } catch (error) {
+    console.log(error);
     return {
       message: "Something happen",
       status: "error",
@@ -134,6 +136,7 @@ export async function getAllChapters(courseId: string): Promise<ApiResponse> {
       data: chapters,
     };
   } catch (error) {
+    console.log(error);
     return {
       message: "Something happen",
       status: "error",

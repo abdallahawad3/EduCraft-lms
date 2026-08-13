@@ -1,5 +1,5 @@
 'use client';
-import { AdminCourseType } from '@/actions/admin/get-admin-data';
+import type { adminGetCourse } from '@/actions/admin/get-course-data';
 import Uploader from '@/components/file-uploader/Uploader';
 import RichTextEditor from '@/components/rich-text-editor/Editor';
 import { Button } from '@/components/ui/button';
@@ -35,12 +35,14 @@ import { toast } from 'sonner';
 import z from 'zod';
 import { updateCourse } from '../action';
 
+type CourseEditData = Awaited<ReturnType<typeof adminGetCourse>>;
+
 const EditCourseForm = ({
   data,
   id,
   imageUrl,
 }: {
-  data: AdminCourseType[0];
+  data: CourseEditData;
   id: string;
   imageUrl: string;
 }) => {

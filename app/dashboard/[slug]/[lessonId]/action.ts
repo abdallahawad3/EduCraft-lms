@@ -34,6 +34,8 @@ export async function markLessonComplete(lessonId: string, slug: string): Promis
       status: "success",
     };
   } catch (error) {
+    console.error("Failed to generate presigned URL:", error);
+
     return {
       message: "Failed to mark lesson as complete",
       status: "error",

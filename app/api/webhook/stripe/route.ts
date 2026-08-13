@@ -14,6 +14,8 @@ export async function POST(req: Request) {
   try {
     event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
   } catch (error) {
+    console.error("Failed to generate presigned URL:", error);
+
     return new Response("Webhook Error", { status: 400 });
   }
 
@@ -23,7 +25,7 @@ export async function POST(req: Request) {
     const courseId = session.metadata?.courseId;
     const customerId = session.customer as string;
     if (!courseId) {
-      new Error("Course Id not found...");
+      return new Response("Course ID not found", { status: 400 });
     }
 
     const user = await prisma.user.findUnique({
@@ -33,7 +35,7 @@ export async function POST(req: Request) {
     });
 
     if (!user) {
-      return new Error("User not founded");
+      return new Response("User not found", { status: 404 });
     }
 
     await prisma.enrollment.update({

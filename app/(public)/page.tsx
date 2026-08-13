@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
+import { Sparkles } from "lucide-react";
 import { headers } from "next/headers";
 import Link from "next/link";
 
@@ -56,10 +57,20 @@ const page = async () => {
   });
 
   return (
-    <>
-      <section className="relative flex justify-center items-center mb-5 py-30">
-        <div className="flex flex-col items-center text-center space-y-4">
-          <Badge variant="outline">The Future of Online Education</Badge>
+    <main className="overflow-hidden bg-background">
+      <section className="relative isolate flex justify-center items-center mb-5 py-30 h-screen border-b border-border">
+        {/* Background decoration */}
+        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute left-1/2 -top-55 h-125 w-200 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+          <div className="absolute -left-75 top-75 h-75 w-75 rounded-full bg-blue-500/10 blur-3xl" />
+          <div className="absolute -right-37.5 top-125 h-87.5 w-87.5 rounded-full bg-violet-500/10 blur-3xl" />
+        </div>
+
+        <div className="flex flex-col items-center text-center space-y-4 md:pb-20">
+          <div className="mb-7 inline-flex items-center gap-2 rounded-full border bg-background/80 px-4 py-2 text-sm font-medium shadow-sm backdrop-blur">
+            <Sparkles className="size-4 text-primary" />
+            <span>The Future of Online Education</span>
+          </div>
           <h1 className="text-4xl md:text-6xl font-medium tracking-tight text-center">
             Elevate Your Learning Experience
           </h1>
@@ -118,7 +129,7 @@ const page = async () => {
           </Card>
         ))}
       </section>
-    </>
+    </main>
   );
 };
 

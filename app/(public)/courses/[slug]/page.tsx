@@ -32,7 +32,7 @@ export default async function CoursePage({ params }: IProps) {
   const course = await getCourseBySlug(slug);
   const isEnrolled = await isUserEnrolledInCourse(course.id);
   return (
-    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 mt-5">
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 mt-5 mx-5 md:mx-20">
       <div className="order-1 lg:col-span-2">
         <div className="relative aspect-video w-full rounded-xl overflow-hidden shadow-lg group">
           <Image

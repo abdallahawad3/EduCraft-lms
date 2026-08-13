@@ -112,6 +112,8 @@ const Uploader = ({ onChange, value, imageUrl, videoUrl, type }: IUploaderProps)
         xhr.send(file);
       });
     } catch (error) {
+      console.error("Failed to generate presigned URL:", error);
+
       toast.error("Failed to upload file");
 
       setFileState((prev) => ({
@@ -158,6 +160,8 @@ const Uploader = ({ onChange, value, imageUrl, videoUrl, type }: IUploaderProps)
       onChange?.("");
       toast.success("File deleted successfully");
     } catch (error) {
+      console.error("Failed to generate presigned URL:", error);
+
       toast.error("Failed to delete file");
     }
   }

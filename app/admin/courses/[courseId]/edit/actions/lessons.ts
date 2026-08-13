@@ -38,6 +38,7 @@ export const addLessonToChapter = async (chapterId: string, lessonTitle: string)
       data: lesson,
     };
   } catch (error) {
+    console.log(error);
     return {
       message: "Something went wrong",
       status: "error",
@@ -59,6 +60,7 @@ export const deleteLesson = async (lessonId: string) => {
       status: "success",
     };
   } catch (error) {
+    console.log(error);
     return {
       message: "Something went wrong",
       status: "error",

@@ -11,7 +11,7 @@ const CourseSlug = async ({ params }: IAppProps) => {
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
   const firstChapter = course.chapters[0];
-  const firstLesson = firstChapter.lessons[0];
+  const firstLesson = firstChapter?.lessons[0];
 
   if (firstLesson) {
     return redirect(`/dashboard/${course.slug}/${firstLesson.id}`);
