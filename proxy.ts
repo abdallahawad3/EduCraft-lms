@@ -14,7 +14,7 @@ const aj = arcjet({
     fixedWindow({
       mode: "LIVE",
       window: "1m",
-      max: 30,
+      max: 300,
     }),
   ],
 });
@@ -28,6 +28,7 @@ export async function proxy(request: NextRequest) {
       reason: decision.reason,
       results: decision.results,
       url: request.url,
+      method: request.method,
       userAgent: request.headers.get("user-agent"),
     });
 
@@ -36,9 +37,7 @@ export async function proxy(request: NextRequest) {
         {
           error: "Too many requests",
         },
-        {
-          status: 429,
-        },
+        { status: 429 },
       );
     }
 
