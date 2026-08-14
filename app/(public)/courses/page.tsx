@@ -1,7 +1,7 @@
 import { getPublicCourses } from "@/app/data/courses/get-courses";
 import { Suspense } from "react";
 import PublicCourseCard, { PublicCourseSkeleton } from "../_component/PublicCourseCard";
-
+export const dynamic = "force-dynamic";
 export default async function Page() {
   return (
     <div className="py-8 mx-5 md:mx-20">

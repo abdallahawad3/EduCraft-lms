@@ -7,6 +7,7 @@ import { stripe } from "@/lib/stripe";
 import { ApiResponse } from "@/lib/types";
 import { CourseSchemeType, CREATE_COURSE_SCHEME } from "@/lib/validation/create-course";
 import { request } from "@arcjet/next";
+import { revalidatePath } from "next/cache";
 
 const aj = arcjet
   .withRule(
@@ -77,7 +78,7 @@ export async function createCourse(courseData: CourseSchemeType): Promise<ApiRes
         duration: Number(validation.data.duration),
       },
     });
-
+    revalidatePath("/courses");
     return {
       status: "success",
       message: "Course created successfully",
